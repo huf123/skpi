@@ -38,10 +38,10 @@ class Dashboard extends CI_Controller {
 			FROM mst_mahasiswa")->result();
 
 		$this->load->view('head', $data);
-		if($role==1 OR $role==2 OR $role==4) {
-			$this->load->view('profil_view', $data);
-		}elseif ($role==3) {
-			$this->load->view('profil_detail', $data);
+		if($role==1 OR $role==2 OR $role==3) {
+			$this->load->view('profil_mhs_view', $data);
+		}elseif ($role==4) {
+			$this->load->view('profil_staff_view', $data);
 		}
 		$this->load->view('foot');
 	}
@@ -63,9 +63,9 @@ class Dashboard extends CI_Controller {
 		}
 
 		$this->load->view('head', $data);
-		if($role==1 OR $role==2 OR $role==4) {
+		if($role==1 OR $role==2 OR $role==3) {
 			$this->load->view('kegiatan_mhs', $data);
-		}elseif ($role==3) {
+		}elseif ($role==4) {
 			$this->load->view('kegiatan_list', $data);
 		}
 		$this->load->view('foot');
