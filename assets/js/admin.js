@@ -475,10 +475,21 @@ $(document).ready(function() {
         weekStart: 1,
         time: false
     });
+
+    // Verifikasi Kegiatan
 	var wrapper = $('.wrap');
 	$('#kegiatan_verification').on('click',function(){
 		$(wrapper).on('click',function(){
-
+			
 		})
-	})
+	});
+
+	// Exportable table
+    $('.js-exportable').DataTable({
+        dom: 'Bfrtip',
+        responsive: true,
+        buttons: [
+            'excel', 'pdf', 'print'
+        ]
+    });
 });

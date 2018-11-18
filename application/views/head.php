@@ -82,7 +82,7 @@
     <!-- #Top Bar -->
     <section>
         <!-- Left Sidebar -->
-        <aside id="leftsidebar" style='width:250px;' class="sidebar">
+        <aside id="leftsidebar" style='width:180px;' class="sidebar">
             <!-- User Info --><div class="user-info" style="height: 65px"></div><!-- #User Info -->
             <!-- Menu -->
             <div class="menu">
@@ -134,11 +134,3 @@
         </aside>
         <!-- #END# Left Sidebar -->
     </section>
-    <section class="content" style='margin-left:260px;'>
-    <div class="container-fluid">
-        <div class="block-header">
-            <ol class="breadcrumb breadcrumb-col-blue" style="padding-left: 0">
-                <li><a href="javascript:void(0);"><i class="material-icons">dashboard</i> Dashboard</a></li>
-                <li class="active"><i class="material-icons"><?php echo $icon ?></i> <?php echo $title ?></li>
-            </ol>
-        </div>
