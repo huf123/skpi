@@ -3,10 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends CI_Controller {
 
+	public $uid;
+	public $role;
+
 	public function __construct()
 	{
 		parent::__construct();
-		//Do your magic here
+		$this->uid = $this->session->userdata('uid');
+		$this->role = $this->session->userdata('role');
+
+		$this->load->model('skpi_model');
+		if(!$this->uid)
+			redirect(base_url('auth/login'),'refresh');
 	}
 
 	public function index()
@@ -23,51 +31,44 @@ class Dashboard extends CI_Controller {
 	// Halaman Profil
 	public function profil() 
 	{
-		// Halaman profil untuk Kemahasiswaan
-		$data["title"] = "Profil";
-		$data["title"] = "Profil";
+		$data["title"] = "Daftar Profil Mahasiswa";
+		$data["bread"] = "Profil";
 		$data["icon"] = "person";
 
-		// role 1 = admin, 2 = pembantu dekan, 3 = kemahasiswaan, 4 = mahasiswa
-		$role = $this->session->userdata('role');
-
-		$data["profil"] = $this->db->query("
-			SELECT mhs_id,mhs_name,mhs_nim,mhs_address,
-				mhs_phone,mhs_sex,mhs_birthplace,mhs_birthdate,
-				mhs_department,mhs_faculty
-			FROM mst_mahasiswa")->result();
-
 		$this->load->view('head', $data);
+		
+		// Tampilan halaman profil (admin, p.dekan, kemahasiswaan)
 		if($role==1 OR $role==2 OR $role==3) {
-			$this->load->view('profil_mhs_view', $data);
-		}elseif ($role==4) {
+			$data["profil"] = $this->skpi_model->profil_mhs('')->result();
 			$this->load->view('profil_staff_view', $data);
 		}
+		
+		// Tampilan halaman profil (mahasiswa)
+		elseif ($role==4) {
+			$data["profil"] = $this->skpi_model->profil_mhs('WHERE mhs_uid = $mhs')->row();
+			$this->load->view('profil_mhs_view', $data);
+		}
+
 		$this->load->view('foot');
 	}
 
-	// Halaman Kegiatan
+	// Halaman Kegiatan (Mahasiswa only)
 	public function kegiatan()
 	{
 		$data["title"] = "Kegiatan";
 		$data["bread"] = "Kegiatan";
 		$data["icon"] = "work";
 
-		// role 1 = admin, 2 = pembantu dekan, 3 = kemahasiswaan, 4 = mahasiswa
-		$role = $this->session->userdata('role');
-		
-		if (isset($mhs)) {
-			$data["kegiatan"] = $this->db->get_where('mst_kegiatan',array('keg_mahasiswa' => $mhs))->result();
-		}elseif (isset($pdekan) OR isset($kmhs)) {
-			$data["kegiatan"] = $this->db->query('')->result();
-		}
+		$data["kegiatan"] = $this->db->query("
+			SELECT keg_id,keg_name,keg_name_eng,keg_desc,keg_kepesertaan,keg_bidang,
+				keg_bentuk,keg_start,keg_finish,keg_file,keg_status
+			FROM mst_kegiatan
+			JOIN mst_mahasiswa ON keg_mahasiswa = mhs_id
+			JOIN mst_user ON mhs_uid = uid
+			WHERE mhs_uid = $this->uid")->result();
 
 		$this->load->view('head', $data);
-		if($role==1 OR $role==2 OR $role==3) {
-			$this->load->view('kegiatan_mhs', $data);
-		}elseif ($role==4) {
-			$this->load->view('kegiatan_list', $data);
-		}
+		$this->load->view('kegiatan_mhs', $data);
 		$this->load->view('foot');
 	}
 	public function kegiatan_add()
@@ -151,18 +152,6 @@ class Dashboard extends CI_Controller {
 		$this->load->view('transkrip_view', $data);
 		$this->load->view('foot');
 	}
-	public function transkrip_edit($id)
-	{
-		$data["title"] = "Transkrip";
-
-		$this->load->view('head', $data);
-		$this->load->view('transkrip_view', $data);
-		$this->load->view('foot');
-	}
-	public function transkrip_delete($id)
-	{
-		$this->db->delete('mst_transkrip',array('trans_id' => $id));
-	}
 
 	// Halaman Laporan
 	public function laporan()
@@ -172,11 +161,24 @@ class Dashboard extends CI_Controller {
 		$data["laporan"] = $this->db->query("
 			SELECT mhs_name, mhs_nim, keg_name, keg_file, keg_status
 			FROM mst_mahasiswa
-			JOIN mst_kegiatan ON mhs_id = keg_mahasiswa
-			")->result();
+			JOIN mst_kegiatan ON mhs_id = keg_mahasiswa")->result();
+
+		// role 1 = admin, 2 = pembantu dekan, 3 = kemahasiswaan
+		$role = $this->session->userdata('role');
+		$uid = $this->session->userdata('uid');
+		
+		if (isset($mhs)) {
+			$data["laporan"] = $this->db->get_where('mst_kegiatan',array('keg_mahasiswa' => $mhs))->result();
+		}elseif (isset($pdekan) OR isset($kmhs)) {
+			$data["laporan"] = $this->db->query('')->result();
+		}
 
 		$this->load->view('head', $data);
-		$this->load->view('profil_view', $data);
+		if($role==1 OR $role==2) {
+			$this->load->view('kegiatan_mhs', $data);
+		}elseif ($role==3) {
+			$this->load->view('kegiatan_list', $data);
+		}
 		$this->load->view('foot');
 	}
 	public function laporan_verifikasi()

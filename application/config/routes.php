@@ -51,4 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'dashboard';
 $route['404_override'] = 'error/not_found';
+$route['dashboard/kegiatan/add'] = 'dashboard/kegiatan_add';
+$route['dashboard/kegiatan/edit/(:any)'] = 'dashboard/kegiatan_edit/$1';
+$route['dashboard/profil/edit'] = 'dashboard/profil_edit';
 $route['translate_uri_dashes'] = FALSE;

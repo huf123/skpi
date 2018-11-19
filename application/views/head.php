@@ -95,19 +95,19 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url('dashboard/survey') ?>">
+                        <a href="<?php echo base_url('dashboard/profil') ?>">
                             <i class="material-icons">person</i>
                             <span>Profil</span>
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url('dashboard/category') ?>">
+                        <a href="<?php echo base_url('dashboard/kegiatan') ?>">
                             <i class="material-icons">work</i>
                             <span>Kegiatan</span>
                         </a> 
                     </li>                    
                     <li>
-                        <a href="<?php echo base_url('dashboard/poll') ?>">
+                        <a href="<?php echo base_url('dashboard/transkrip') ?>">
                             <i class="material-icons">assignment</i>
                             <span>Transkrip</span>
                         </a> 

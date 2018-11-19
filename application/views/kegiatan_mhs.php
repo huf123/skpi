@@ -19,7 +19,7 @@
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table style="width:100%" class="table table-bordered table-striped table-hover js-basic-example dataTable js-exportable">
+                            <table style="width:100%" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
@@ -50,6 +50,11 @@
                                     <?php foreach ($kegiatan as $keg){ ?>
                                     <tr>
                                         <td><?= $keg->keg_name ?></td>
+                                        <td><?= $keg->keg_bidang ?></td>
+                                        <td><?= $keg->keg_bentuk ?></td>
+                                        <td><?= $keg->keg_level ?></td>
+                                        <td><?= $keg->keg_kepesertaan ?></td>
+                                        <td><?= $keg->keg_start.' - '.$keg->keg_finish ?></td>
                                         <td></td>
                                         <td><?= $keg->keg_status ?></td>
                                         <td><?= $keg->keg_file ?></td>
