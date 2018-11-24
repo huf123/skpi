@@ -8,63 +8,88 @@
                             </h2>
                         </div>  
                         <div class="body">
-                            <?= form_open_multipart(base_url('dashboad/update_user')); ?>
+                            <?= form_open_multipart(base_url('dashboad/kegiatan_save')); ?>
                                 <div class="form-group">
-                                    <h2 class="card-inside-title">Nama Kegiatan</h2>
+                                    <h2 class="card-inside-title">Nama kegiatan</h2>
                                     <div class="form-line">
-                                        <input type="text" name ="fullname" class="form-control" placeholder="Enter your question" value="<?= $user_where->fullname ?>">
+                                        <input type="text" name ="keg_name" class="form-control" placeholder="Masukkan nama kegiatan">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <h2 class="card-inside-title">Jenis Kegiatan</h2>
+                                    <h2 class="card-inside-title">Nama kegiatan (English)</h2>
                                     <div class="form-line">
-                                        <input type="text" name ="uname" class="form-control" placeholder="Enter your question" value="<?= $user_where->uname ?>">
+                                        <input type="text" name ="keg_name_eng" class="form-control" placeholder="Masukkan nama kegiatan (dalam Bahasa Inggris)">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <h2 class="card-inside-title">Deskripsi Kegiatan</h2>
+                                    <h2 class="card-inside-title">Deskripsi kegiatan</h2>
                                     <div class="form-line">
-                                        <input type="password" name ="upwd" class="form-control" placeholder="Enter your question" value="<?= $user_where->upwd ?>">
-                                    </div>
-                                </div>                                
-                                <div class="form-group">
-                                    <h2 class="card-inside-title">Kepesertaan</h2>
-                                    <div id="preview">
-                                        <img src="<?= base_url('assets/images/user'.$user_where->pic) ?>"><br/>
-                                        <a href="#" id="removePreview">Remove</a>
-                                    </div>
-                                </div>
-                                <div class="form-group">                                    
-                                    <div class="demo-radio-button">
-                                        <h2 class="card-inside-title">Bidang</h2>
-                                        <input name="role" type="radio" class="radio-col-blue with-gap" id="radio_1" value="1" <?php if($user_where->role==1) echo "checked" ?>>
-                                        <label for="radio_1">Administrator</label>
-                                        <input name="role" type="radio" id="radio_2" class="radio-col-blue with-gap" value="2" <?php if($user_where->role==2) echo "checked" ?>>
-                                        <label for="radio_2">Moderator</label>
-                                    </div>
-                                </div>
-                                <div class="form-group">                                    
-                                    <div class="demo-radio-button">
-                                        <h2 class="card-inside-title">Bentuk</h2>
-                                        <input name="role" type="radio" class="radio-col-blue with-gap" id="radio_1" value="1" <?php if($user_where->role==1) echo "checked" ?>>
-                                        <label for="radio_1">Administrator</label>
-                                        <input name="role" type="radio" id="radio_2" class="radio-col-blue with-gap" value="2" <?php if($user_where->role==2) echo "checked" ?>>
-                                        <label for="radio_2">Moderator</label>
-                                    </div>
-                                </div>
-                                <div class="form-group">                                    
-                                    <div class="demo-radio-button">
-                                        <h2 class="card-inside-title">Bidang</h2>
-                                        <input name="role" type="radio" class="radio-col-blue with-gap" id="radio_1" value="1" <?php if($user_where->role==1) echo "checked" ?>>
-                                        <label for="radio_1">Administrator</label>
-                                        <input name="role" type="radio" id="radio_2" class="radio-col-blue with-gap" value="2" <?php if($user_where->role==2) echo "checked" ?>>
-                                        <label for="radio_2">Moderator</label>
+                                        <textarea name ="keg_desc" class="form-control" placeholder="Masukkan deskripsi kegiatan"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <h2 class="card-inside-title">Bidang kegiatan</h2>                                    
+                                    <select class="form-control show-tick">
+                                        <option value="">-- Pilih bidang kegiatan --</option>
+                                        <option value="10">Penalaran</option>
+                                        <option value="20">Minat bakat</option>
+                                        <option value="30">Pengabdian kepada masyarakat</option>
+                                        <option value="40">Kegiatan kesejahteraan mahasiswa</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <h2 class="card-inside-title">Bentuk kegiatan</h2>                                    
+                                    <select class="form-control show-tick">
+                                        <option value="">-- Pilih bentuk kegiatan --</option>
+                                        <option value="10">Seminar</option>
+                                        <option value="20">Workshop/lokakarya</option>
+                                        <option value="30">Kuliah tamu/umum</option>
+                                        <option value="40">Menulis karya ilmiah</option>
+                                    </select>
+                                </div>                             
+                                <div class="form-group">
+                                    <h2 class="card-inside-title">Jenis kepesertaan</h2>                                    
+                                    <select class="form-control show-tick">
+                                        <option value="">-- Pilih jenis kepesertaan --</option>
+                                        <option value="10">Peserta</option>
+                                        <option value="20">Panitia</option>
+                                        <option value="30">Anggota</option>
+                                    </select>
+                                </div>                             
+                                <div class="form-group">
+                                    <h2 class="card-inside-title">Level kegiatan</h2>                                    
+                                    <select class="form-control show-tick">
+                                        <option value="">-- Pilih level kegiatan --</option>
+                                        <option value="10">Jurusan</option>
+                                        <option value="20">Fakultas</option>
+                                        <option value="30">Universitas</option>
+                                        <option value="40">Regional kota</option>
+                                        <option value="40">Regional provinsi</option>
+                                        <option value="40">Nasional</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <h2 class="card-inside-title">Tanggal pelaksanaan</h2>
+                                    <div class="input-daterange input-group" id="bs_datepicker_range_container">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" placeholder="Date start...">
+                                        </div>
+                                        <span class="input-group-addon"><i class="material-icons">date_range</i></span>&nbsp;
+                                        <span class="input-group-addon">s.d.</span>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" placeholder="Date end...">
+                                        </div>
+                                        <span class="input-group-addon"><i class="material-icons">date_range</i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <h2 class="card-inside-title">Lampiran scan sertifikat</h2>
                                     <input type="file" name ="keg_file" class="form-control">
                                 </div>
-                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">TAMBAH</button>
+                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">
+                                <!-- <span class="input-group-addon"><i class="material-icons">done</i></span> -->
+                                SIMPAN
+                            </button>
                         </div>  
                     </div>
                 </div>

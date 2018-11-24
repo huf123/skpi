@@ -10,6 +10,12 @@ class Skpi_model extends CI_Model {
 				mhs_sex,mhs_birthplace,mhs_birthdate,mhs_department
 			FROM mst_mahasiswa ".$other);
 	}
+	public function user($other)
+	{
+		return $this->db->query("
+			SELECT uid,uname,fullname,role,mod_date,mod_status,mod_uid
+			FROM mst_user ".$other);
+	}
 }
 
 /* End of file skpi_model.php */

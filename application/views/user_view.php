@@ -1,4 +1,14 @@
-            <!-- Basic Examples -->
+<section class="content" style='margin-left:190px;'>
+    <div class="container-fluid">
+        <div class="block-header">
+            <h2>                
+                <ol class="breadcrumb breadcrumb-col-blue" style="padding-left: 0">
+                    <li><a href="javascript:void(0);"><i class="material-icons">dashboard</i> Dashboard</a></li>
+                    <li class="active"><i class="material-icons"><?php echo $icon ?></i> <?php echo $bread ?></li>
+                </ol>
+            </h2>
+        </div>
+        <!-- Basic Examples -->
             <div class="row clearfix">
                 <div class="col-lg-6">
                     <div class="card">
@@ -6,7 +16,7 @@
                             <h2>Tambah <?= $title ?></h2>
                         </div>  
                         <div class="body">
-                        <?= form_open_multipart(base_url('dashboard/save_user')) ?>
+                        <?= form_open(base_url('dashboard/user_save')) ?>
                             <div class="form-group">
                                 <h2 class="card-inside-title">Nama Lengkap</h2>
                                 <div class="form-line">
@@ -31,7 +41,11 @@
                                     <input name="role" type="radio" class="radio-col-blue with-gap" id="radio_1" value="1">
                                     <label for="radio_1">Administrator</label>
                                     <input name="role" type="radio" id="radio_2" class="radio-col-blue with-gap" value="2">
-                                    <label for="radio_2">Moderator</label>
+                                    <label for="radio_2">Pembantu Dekan III</label>
+                                    <input name="role" type="radio" id="radio_3" class="radio-col-blue with-gap" value="3">
+                                    <label for="radio_3">Kemahasiswaan</label>
+                                    <input name="role" type="radio" id="radio_4" class="radio-col-blue with-gap" value="4">
+                                    <label for="radio_4">Mahasiswa</label>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary m-t-15 waves-effect">TAMBAH</button>
@@ -53,6 +67,7 @@
                                             <th>Username</th>
                                             <th>Name</th>
                                             <th>Role</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -60,17 +75,23 @@
                                             <th>Username</th>
                                             <th>Name</th>
                                             <th>Role</th>
+                                            <th>Status</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <?php foreach ($user as $u){ ?>
                                         <tr>
                                             <td><?= $u->uname."<br>";
-                                            echo anchor(base_url("dashboard/edit_user/".$u->uid), 'Edit');
+                                            echo anchor(base_url("dashboard/user_edit/".$u->uid), 'Edit');
                                             echo ' | ';
-                                            echo anchor(base_url("dashboard/del_user/".$u->uid), 'Delete'); ?></td>
+                                            echo anchor(base_url("dashboard/user_delete/".$u->uid), 'Delete'); ?></td>
                                             <td><?= $u->fullname ?></td>
-                                            <td><?php if($u->role==1) echo "Administrator"; elseif($u->role==2) echo "Moderator" ?></td>
+                                            <td><?php if($u->role==1) echo "Administrator"; elseif($u->role==2) echo "Pembantu Dekan III"; 
+                                             elseif($u->role==3) echo "Kemahasiswaan";  elseif($u->role==4) echo "Mahasiswa"; ?></td>
+                                             <td>
+                                                <span class="label label-success">Ditambahkan</span>
+                                                <?= ' oleh '.$u->mod_uid.'</br>'.$u->mod_date ?>
+                                            </td>
                                         </tr>                                          
                                         <?php } ?>
                                     </tbody>

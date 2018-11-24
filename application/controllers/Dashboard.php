@@ -3,9 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends CI_Controller {
 
-	public $uid;
-	public $role;
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -20,8 +17,6 @@ class Dashboard extends CI_Controller {
 	public function index()
 	{
 		$data["title"] = "Dashboard";
-		$data["bread"] = "";
-		$data["icon"] = "";
 
 		$this->load->view('head', $data);
 		$this->load->view('index_view', $data);
@@ -74,8 +69,10 @@ class Dashboard extends CI_Controller {
 	public function kegiatan_add()
 	{
 		$data["title"] = "Tambah Kegiatan";
-		$data["bread"] = "work";
-		$data["icon"] = "";
+		$data["bread"] = "Kegiatan";
+		$data["icon"] = "work";
+		$data["subbread"] = "Tambah";
+		$data["subicon"] = "add";
 
 		$this->load->view('head', $data);
 		$this->load->view('kegiatan_add', $data);
@@ -119,8 +116,10 @@ class Dashboard extends CI_Controller {
 	public function kegiatan_edit($id)
 	{
 		$data["title"] = "Edit Kegiatan";
-		$data["bread"] = "work";
-		$data["icon"] = "";
+		$data["bread"] = "Kegiatan";
+		$data["icon"] = "work";
+		$data["subbread"] = "Edit";
+		$data["subicon"] = "edit";
 
 		$data["kegiatan"] = $this->db->get_where('mst_kegiatan',array('keg_id' => $id))->row();
 
@@ -138,14 +137,6 @@ class Dashboard extends CI_Controller {
 	// Halaman Transkrip
 	public function transkrip()
 	{
-		$data["title"] = "Transkrip";
-
-		$this->load->view('head', $data);
-		$this->load->view('transkrip_view', $data);
-		$this->load->view('foot');
-	}
-	public function transkrip_detail($id)
-	{		
 		$data["title"] = "Transkrip";
 
 		$this->load->view('head', $data);
@@ -187,6 +178,83 @@ class Dashboard extends CI_Controller {
 		$data = array('keg_status' => $this->input->post("keg_status"));
 		$this->db->update('mst_kegiatan', $data, array('keg_id' => $id));
 	}
+
+	// User & privilege management
+	public function user()
+	{
+		if ($this->role==1) {
+			$data["title"] = "User & Privilege";
+			$data["bread"] = "User & Privilege";
+			$data["icon"] = "supervisor_account";
+
+			$data["user"] = $this->skpi_model->user('')->result();
+
+			$this->load->view('head', $data);
+			$this->load->view('user_view', $data);
+			$this->load->view('foot');
+		}else{
+			redirect(base_url('error/not_found'),'refresh');
+		}
+	}
+	public function user_save()
+	{
+		if ($this->role==1) {
+			$data = array(
+				'fullname' => $this->input->post('fullname'), 
+				'uname' => $this->input->post('uname'),
+				'upwd' => $this->input->post('upwd'),
+				'role' => $this->input->post('role'),
+				// mod status 1. added, 2. modified
+				'mod_status' => 1,
+				'mod_uid' => $this->uid);
+
+			$this->db->insert('mst_user', $data);
+			redirect(base_url('dashboard/user'),'refresh');
+		}else{
+			redirect(base_url('error/not_found'),'refresh');
+		}
+	}
+	public function user_edit($id)
+	{		
+		if ($this->role==1) {
+			$data["title"] = "User & Privilege";
+			$data["bread"] = "User & Privilege";
+			$data["icon"] = "supervisor_account";
+			$data["subbread"] = "Edit";
+			$data["subicon"] = "edit";
+		}else{
+			redirect(base_url('error/not_found'),'refresh');
+		}
+	}
+	public function user_update()
+	{
+		if ($this->role==1) {
+			$data = array(
+				'fullname' => $this->input->post('fullname'), 
+				'uname' => $this->input->post('uname'),
+				'upwd' => $this->input->post('upwd'),
+				'role' => $this->input->post('role'),
+				// mod status 1. added, 2. modified
+				'mod_status' => 2,
+				'mod_uid' => $this->uid);
+
+			$this->db->update('mst_user', $data);
+			redirect(base_url('dashboard/user'),'refresh');			
+		}else{
+			redirect(base_url('error/not_found'),'refresh');
+		}
+	}
+	public function user_delete($id)
+	{
+		if ($this->role==1) {
+			$this->db->delete('mst_user',array('uid' => $id));
+			redirect(base_url('dashboard/user'),'refresh');
+		}else{
+			redirect(base_url('error/not_found'),'refresh');
+		}
+	}
+
+
 
 }
 

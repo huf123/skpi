@@ -1,20 +1,14 @@
-<section class="content" style='margin-left:190px;'>
-    <div class="container-fluid">
-        <div class="block-header">
-            <h2>                
-                <ol class="breadcrumb breadcrumb-col-blue" style="padding-left: 0">
-                    <li><a href="javascript:void(0);"><i class="material-icons">dashboard</i> Dashboard</a></li>
-                    <li class="active"><i class="material-icons"><?php echo $icon ?></i> <?php echo $bread ?></li>
-                </ol>
-            </h2>
-        </div>
         <!-- Tables -->
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="header">
+                    <div class="header bg-blue">
                         <h2>
-                            Daftar <?= $title ?>
+                            Daftar <?= $title ?>&nbsp;
+                            <a href="<?php echo base_url() ?>dashboard/kegiatan/add" class="btn btn-default waves-effect waves-float" style="font-weight: bold;">
+                                <i class="material-icons" style="color: #000!important">add</i>
+                                <span>TAMBAH</span>
+                            </a>
                         </h2>
                     </div>
                     <div class="body">

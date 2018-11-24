@@ -51,7 +51,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'dashboard';
 $route['404_override'] = 'error/not_found';
+// Profil
+$route['dashboard/profil/add'] = 'dashboard/profil_add';
+$route['dashboard/profil/edit/(:any)'] = 'dashboard/profil_edit/$1';
+$route['dashboard/profil/delete/(:any)'] = 'dashboard/profil_delete/$1';
+// Kegiatan
 $route['dashboard/kegiatan/add'] = 'dashboard/kegiatan_add';
 $route['dashboard/kegiatan/edit/(:any)'] = 'dashboard/kegiatan_edit/$1';
-$route['dashboard/profil/edit'] = 'dashboard/profil_edit';
+$route['dashboard/kegiatan/delete/(:any)'] = 'dashboard/kegiatan_delete/$1';
+// User & privilege
+$route['dashboard/user/add'] = 'dashboard/user_add';
+$route['dashboard/user/edit/(:any)'] = 'dashboard/user_edit/$1';
+$route['dashboard/user/delete/(:any)'] = 'dashboard/user_delete/$1';
+// others
 $route['translate_uri_dashes'] = FALSE;

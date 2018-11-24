@@ -134,3 +134,16 @@
         </aside>
         <!-- #END# Left Sidebar -->
     </section>
+    <section class="content" style='margin-left:190px;'>
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2>                
+                    <ol class="breadcrumb breadcrumb-col-blue" style="padding-left: 0">
+                        <li><a href="javascript:void(0);"><i class="material-icons">dashboard</i> Dashboard</a></li>
+                        <li><i class="material-icons"><?php echo $icon ?></i> <?php echo $bread ?></li>
+                        <?php if (isset($subbread)){?>
+                        <li class="active"><i class="material-icons"><?php echo $subicon ?></i> <?php echo $subbread ?></li>
+                        <?php } ?>
+                    </ol>
+                </h2>
+            </div>
