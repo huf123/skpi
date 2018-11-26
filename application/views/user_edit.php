@@ -1,3 +1,9 @@
+        <script>
+            $(document).ready(function() {
+                $("li[class='active']").removeAttr("class");
+                $("#user").attr("class","active");
+            });
+        </script>
             <!-- Basic Examples -->
             <div class="row clearfix">
                 <div class="col-lg-6">

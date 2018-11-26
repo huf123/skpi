@@ -87,33 +87,41 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MENU</li>
-                    <li>
+                    <li id="dashboard">
                         <a href="<?php echo base_url('dashboard') ?>" >
                             <i class="material-icons">dashboard</i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li>
+                    <li id="profil">
                         <a href="<?php echo base_url('dashboard/profil') ?>">
                             <i class="material-icons">person</i>
                             <span>Profil</span>
                         </a>
                     </li>
-                    <li>
+                    <?php $role = $this->session->userdata('role'); if ($role==1 OR $role==2 OR $role==3){ ?>
+                    <li id="laporan">
+                        <a href="<?php echo base_url('dashboard/laporan') ?>">
+                            <i class="material-icons">description</i>
+                            <span>Laporan</span>
+                        </a> 
+                    </li>                        
+                    <?php } elseif ($role==4) { ?>                        
+                    <li id="kegiatan">
                         <a href="<?php echo base_url('dashboard/kegiatan') ?>">
                             <i class="material-icons">work</i>
                             <span>Kegiatan</span>
                         </a> 
-                    </li>                    
-                    <li>
+                    </li>                  
+                    <li id="transkrip">
                         <a href="<?php echo base_url('dashboard/transkrip') ?>">
                             <i class="material-icons">assignment</i>
                             <span>Transkrip</span>
                         </a> 
                     </li>
-                    <?php if ($this->session->userdata('role')==1){?>
+                    <?php } if ($role==1){?>
                         <li class="header">SETTINGS</li>
-                        <li>
+                        <li id="user">
                             <a href="<?php echo base_url('dashboard/user') ?>" >
                                 <i class="material-icons">supervisor_account</i>
                                 <span>User & Privilege</span>

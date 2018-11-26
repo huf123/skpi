@@ -1,3 +1,9 @@
+        <script>
+            $(document).ready(function() {
+                $("li[class='active']").removeAttr("class");
+                $("#kegiatan").attr("class","active");
+            });
+        </script>
         <!-- Tables -->
         <div class="row clearfix">
             <div class="col-lg-12">

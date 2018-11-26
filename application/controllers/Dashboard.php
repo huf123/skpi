@@ -8,10 +8,12 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		$this->uid = $this->session->userdata('uid');
 		$this->role = $this->session->userdata('role');
+		$this->uname = $this->session->userdata('uname');
 		$this->mhs_id = $this->session->userdata('mhs_id');
+		$this->fullname = $this->session->userdata('fullname');
 
 		$this->load->model('skpi_model');
-		if(!$this->uid)
+		if(!$this->role)
 			redirect(base_url('auth/login'),'refresh');
 	}
 
@@ -27,24 +29,25 @@ class Dashboard extends CI_Controller {
 	// Halaman Profil
 	public function profil() 
 	{
-		$data["title"] = "Daftar Profil Mahasiswa";
 		$data["bread"] = "Profil";
 		$data["icon"] = "person";
+		$data["title"] = "Profil Mahasiswa";
 
-		$mhs = $this->uid;
+		$mhs = $this->uname;
 		$role = $this->role;
 
 		$this->load->view('head', $data);
 		
 		// Tampilan halaman profil (admin, p.dekan, kemahasiswaan)
 		if($role==1 OR $role==2 OR $role==3) {
+			$data["title"] = "Daftar Profil Mahasiswa";
 			$data["profil"] = $this->skpi_model->profil_mhs('')->result();
 			$this->load->view('profil_staff_view', $data);
 		}
 		
 		// Tampilan halaman profil (mahasiswa)
 		elseif ($role==4) {
-			$data["profil"] = $this->skpi_model->profil_mhs('WHERE mhs_uid = '.$mhs)->row();
+			$data["profil"] = $this->skpi_model->profil_mhs('WHERE mhs_nim = '.$mhs)->row();
 			if (isset($data["profil"])) {
 				$data["url"] = 'dashboard/profil_update';
 			} else{
@@ -60,7 +63,7 @@ class Dashboard extends CI_Controller {
 	public function profil_save()
 	{
 		$data = array(
-			'mhs_uid' => $this->uid,
+			'mhs_nim' => $this->uname,
 			'mhs_name' => $this->input->post('mhs_name'),
 			'mhs_phone' => $this->input->post('mhs_phone'),
 			'mhs_birthplace' => $this->input->post('mhs_birthplace'),
@@ -78,7 +81,7 @@ class Dashboard extends CI_Controller {
 			'mhs_birthplace' => $this->input->post('mhs_birthplace'),
 			'mhs_birthdate' => date_format(date_create($this->input->post('mhs_birthdate')),'Y-m-d'),
 			'mhs_address' => $this->input->post('mhs_address'));
-		$this->db->update('mst_mahasiswa', $data, array('mhs_uid' => $this->uid));
+		$this->db->update('mst_mahasiswa', $data, array('mhs_nim' => $this->uname));
 		redirect(base_url('dashboard/profil'),'refresh');
 	}
 
@@ -94,8 +97,8 @@ class Dashboard extends CI_Controller {
 				keg_bidang,keg_bentuk,keg_start,keg_finish,keg_file,keg_status
 			FROM mst_kegiatan
 			JOIN mst_mahasiswa ON keg_mahasiswa = mhs_id
-			JOIN mst_user ON mhs_uid = uid
-			WHERE mhs_uid = $this->uid")->result();
+			JOIN mst_user ON mhs_nim = uname
+			WHERE mhs_nim = $this->uname")->result();
 
 		$this->load->view('head', $data);
 		$this->load->view('kegiatan_mhs', $data);
@@ -191,29 +194,17 @@ class Dashboard extends CI_Controller {
 	// Halaman Laporan
 	public function laporan()
 	{
-		$data["title"] = "Daftar Laporan";
+		$data["title"] = "Laporan";
+		$data["bread"] = "Laporan";
+		$data["icon"] = "description";
 
 		$data["laporan"] = $this->db->query("
-			SELECT mhs_name, mhs_nim, keg_name, keg_file, keg_status
+			SELECT mhs_nim, mhs_name, mhs_department, keg_name, keg_file, keg_id
 			FROM mst_mahasiswa
-			JOIN mst_kegiatan ON mhs_id = keg_mahasiswa")->result();
+			LEFT JOIN mst_kegiatan ON keg_mahasiswa = mhs_id")->result();
 
-		// role 1 = admin, 2 = pembantu dekan, 3 = kemahasiswaan
-		$role = $this->session->userdata('role');
-		$uid = $this->session->userdata('uid');
-		
-		if (isset($mhs)) {
-			$data["laporan"] = $this->db->get_where('mst_kegiatan',array('keg_mahasiswa' => $mhs))->result();
-		}elseif (isset($pdekan) OR isset($kmhs)) {
-			$data["laporan"] = $this->db->query('')->result();
-		}
-
-		$this->load->view('head', $data);
-		if($role==1 OR $role==2) {
-			$this->load->view('kegiatan_mhs', $data);
-		}elseif ($role==3) {
-			$this->load->view('kegiatan_list', $data);
-		}
+		$this->load->view('head', $data);		
+		$this->load->view('laporan_view', $data);
 		$this->load->view('foot');
 	}
 	public function laporan_verifikasi()

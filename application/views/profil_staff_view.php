@@ -1,3 +1,9 @@
+        <script>
+            $(document).ready(function() {
+                $("li[class='active']").removeAttr("class");
+                $("#profil").attr("class","active");
+            });
+        </script>
         <!-- Tables -->
         <div class="row clearfix">
             <div class="col-lg-12">

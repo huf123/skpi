@@ -1,3 +1,9 @@
+        <script>
+            $(document).ready(function() {
+                $("li[class='active']").removeAttr("class");
+                $("#user").attr("class","active");
+            });
+        </script>
 <section class="content" style='margin-left:190px;'>
     <div class="container-fluid">
         <div class="block-header">

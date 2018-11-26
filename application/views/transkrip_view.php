@@ -1,4 +1,9 @@
-            <!-- Basic Examples -->
+        <script>
+            $(document).ready(function() {
+                $("li[class='active']").removeAttr("class");
+                $("#transkrip").attr("class","active");
+            });
+        </script>            <!-- Basic Examples -->
             <div class="row clearfix">
                 <div class="col-lg-12">
                     <div class="card">

@@ -515,4 +515,15 @@ $(document).ready(function() {
     		date_end_icon.css("display","none");
     	}
     })
+    var form_wrap = $("#form_wrap");
+    $('.edit_profil').on("click",function(){
+    	form_wrap.find('input').prop({disabled:false});
+    	form_wrap.find('textarea').prop({disabled:false});
+    	form_wrap.find('.simpan').prop({disabled:false});
+    })
+    $('.cancel').on("click",function(){
+    	form_wrap.find('input').prop({disabled:true});
+    	form_wrap.find('textarea').prop({disabled:true});
+    	form_wrap.find('.simpan').prop({disabled:true});
+    })
 });
