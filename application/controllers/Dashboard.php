@@ -8,6 +8,7 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		$this->uid = $this->session->userdata('uid');
 		$this->role = $this->session->userdata('role');
+		$this->mhs_id = $this->session->userdata('mhs_id');
 
 		$this->load->model('skpi_model');
 		if(!$this->uid)
@@ -30,6 +31,9 @@ class Dashboard extends CI_Controller {
 		$data["bread"] = "Profil";
 		$data["icon"] = "person";
 
+		$mhs = $this->uid;
+		$role = $this->role;
+
 		$this->load->view('head', $data);
 		
 		// Tampilan halaman profil (admin, p.dekan, kemahasiswaan)
@@ -40,11 +44,42 @@ class Dashboard extends CI_Controller {
 		
 		// Tampilan halaman profil (mahasiswa)
 		elseif ($role==4) {
-			$data["profil"] = $this->skpi_model->profil_mhs('WHERE mhs_uid = $mhs')->row();
+			$data["profil"] = $this->skpi_model->profil_mhs('WHERE mhs_uid = '.$mhs)->row();
+			if (isset($data["profil"])) {
+				$data["url"] = 'dashboard/profil_update';
+			} else{
+				$data["url"] = 'dashboard/profil_save'; 
+				$data["mhs_name"] = $this->session->userdata('fullname');
+			}
 			$this->load->view('profil_mhs_view', $data);
 		}
 
 		$this->load->view('foot');
+	}
+	// Menyimpan profil mahasiswa
+	public function profil_save()
+	{
+		$data = array(
+			'mhs_uid' => $this->uid,
+			'mhs_name' => $this->input->post('mhs_name'),
+			'mhs_phone' => $this->input->post('mhs_phone'),
+			'mhs_birthplace' => $this->input->post('mhs_birthplace'),
+			'mhs_birthdate' => date("d-m-Y",strtotime($this->input->post('mhs_birthdate'))),
+			'mhs_address' => $this->input->post('mhs_address'));
+		$this->db->insert('mst_mahasiswa', $data);		
+		$this->session->set_userdata('mhs_id',$this->db->insert_id());
+		redirect(base_url('dashboard/profil'),'refresh');
+	}
+	// Mengupdate profil mahasiswa (setelah diedit)
+	public function profil_update()
+	{
+		$data = array(
+			'mhs_phone' => $this->input->post('mhs_phone'),
+			'mhs_birthplace' => $this->input->post('mhs_birthplace'),
+			'mhs_birthdate' => date_format(date_create($this->input->post('mhs_birthdate')),'Y-m-d'),
+			'mhs_address' => $this->input->post('mhs_address'));
+		$this->db->update('mst_mahasiswa', $data, array('mhs_uid' => $this->uid));
+		redirect(base_url('dashboard/profil'),'refresh');
 	}
 
 	// Halaman Kegiatan (Mahasiswa only)
@@ -55,8 +90,8 @@ class Dashboard extends CI_Controller {
 		$data["icon"] = "work";
 
 		$data["kegiatan"] = $this->db->query("
-			SELECT keg_id,keg_name,keg_name_eng,keg_desc,keg_kepesertaan,keg_bidang,
-				keg_bentuk,keg_start,keg_finish,keg_file,keg_status
+			SELECT keg_id,keg_name,keg_name_eng,keg_desc,keg_kepesertaan,
+				keg_bidang,keg_bentuk,keg_start,keg_finish,keg_file,keg_status
 			FROM mst_kegiatan
 			JOIN mst_mahasiswa ON keg_mahasiswa = mhs_id
 			JOIN mst_user ON mhs_uid = uid
@@ -68,15 +103,18 @@ class Dashboard extends CI_Controller {
 	}
 	public function kegiatan_add()
 	{
-		$data["title"] = "Tambah Kegiatan";
-		$data["bread"] = "Kegiatan";
-		$data["icon"] = "work";
-		$data["subbread"] = "Tambah";
-		$data["subicon"] = "add";
+		if (isset($this->mhs_id)){
+			$data["title"] = "Tambah Kegiatan";
+			$data["bread"] = "Kegiatan";
+			$data["icon"] = "work";
+			$data["subbread"] = "Tambah";
+			$data["subicon"] = "add";
 
-		$this->load->view('head', $data);
-		$this->load->view('kegiatan_add', $data);
-		$this->load->view('foot');	
+			$this->load->view('head', $data);
+			$this->load->view('kegiatan_add', $data);
+			$this->load->view('foot');
+		}
+		else redirect(base_url('dashboard/profil'),'refresh');
 	}
 	public function kegiatan_save()
 	{
@@ -85,50 +123,56 @@ class Dashboard extends CI_Controller {
 
 		// TIME TO UPLOAD
 		$this->load->library('upload',$config);
-		if ( ! $this->upload->do_upload('file')){
+		if($this->upload->do_upload('keg_file')){
+			$data = array(
+				// nama kegiatan
+				'keg_name' => $this->input->post('keg_name'),
+				// file lampiran sertifikat kegiatan
+				'keg_file' => $this->upload->data('file_name'),
+				// deskripsi kegiatan
+				'keg_desc' => $this->input->post('keg_desc'),
+				// bidang kegiatan : 1.Penelitian, 2.Minat bakat, 3.Pengabdian masyarakat
+				// 4.Kegiatan Kesejahteraan mahasiswa
+				'keg_bidang' => $this->input->post('keg_bidang'),
+				// status kepesertaan kegiatan : 1.Peserta, 2.Panitia, 3.Anggota
+				'keg_kepesertaan' => $this->input->post('keg_kepesertaan'),
+				// bentuk level : 
+				'keg_bentuk' => $this->input->post('keg_level'),
+				// bentuk kegiatan : 
+				'keg_bentuk' => $this->input->post('keg_bentuk'),
+				// tanggal start & finish kegiatan
+				'keg_start' => $this->input->post('keg_start'),
+				'keg_finish' => $this->input->post('keg_finish'),
+				// nama mahasiswa yang mengikuti kegiatan
+				'keg_mahasiswa' => $this->session->userdata('mhs_id'));
+			$this->db->insert('mst_kegiatan', $data);
+
+			redirect(base_url('dashboard/kegiatan'),'refresh');
+		}
+		else{
 			$error = array('error' => $this->upload->display_errors());
 			var_dump($error);
 		}
-
-		$data = array(
-			// nama kegiatan
-			'keg_name' => $this->db->input('keg_name'),
-			// file lampiran sertifikat kegiatan
-			'keg_file' => $this->upload->data('file_name'),
-			// deskripsi kegiatan
-			'keg_desc' => $this->db->input('keg_desc'),
-			// bidang kegiatan : 1.Penelitian, 2.Minat bakat, 3.Pengabdian masyarakat
-			// 4.Kegiatan Kesejahteraan mahasiswa
-			'keg_bidang' => $this->db->input('keg_bidang'),
-			// status kepesertaan kegiatan : 1.Peserta, 2.Panitia, 3.Anggota
-			'keg_kepesertaan' => $this->db->input('keg_kepesertaan'),
-			// bentuk kegiatan : 
-			'keg_bentuk' => $this->db->input('keg_bentuk'),
-			// tanggal start & finish kegiatan
-			'keg_start' => $this->db->input('keg_start'),
-			'keg_finish' => $this->db->input('keg_finish'),
-			// nama mahasiswa yang mengikuti kegiatan
-			'keg_mahasiswa' => $this->session->userdata('mhs_id'));
-		$this->db->insert('mst_kegiatan', $data);
-
-		redirect(base_url('dashboard/kegiatan'),'refresh');
 	}
 	public function kegiatan_edit($id)
 	{
-		$data["title"] = "Edit Kegiatan";
-		$data["bread"] = "Kegiatan";
-		$data["icon"] = "work";
-		$data["subbread"] = "Edit";
-		$data["subicon"] = "edit";
+		if (isset($this->mhs_id)){
+			$data["title"] = "Edit Kegiatan";
+			$data["bread"] = "Kegiatan";
+			$data["icon"] = "work";
+			$data["subbread"] = "Edit";
+			$data["subicon"] = "edit";
 
-		$data["kegiatan"] = $this->db->get_where('mst_kegiatan',array('keg_id' => $id))->row();
+			$data["kegiatan"] = $this->db->get_where('mst_kegiatan',array('keg_id' => $id))->row();
 
-		$this->load->view('head', $data);
-		$this->load->view('kegiatan_edit', $data);
-		$this->load->view('foot');	
+			$this->load->view('head', $data);
+			$this->load->view('kegiatan_edit', $data);
+			$this->load->view('foot');	
+		}		
+		else redirect(base_url('dashboard/profil'),'refresh');
 	}
 	public function kegiatan_update()
-	{
+	{	
 		$data = array('' => '');
 		$this->db->update('mst_kegiatan', $data);
 		redirect(base_url('dashboard/kegiatan'),'refresh');
@@ -253,9 +297,6 @@ class Dashboard extends CI_Controller {
 			redirect(base_url('error/not_found'),'refresh');
 		}
 	}
-
-
-
 }
 
 /* End of file Dashboard.php */

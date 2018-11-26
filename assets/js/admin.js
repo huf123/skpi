@@ -469,12 +469,6 @@ $(function () {
 });
 
 $(document).ready(function() {
-	$('.datepicker').bootstrapMaterialDatePicker({
-        format: 'dddd DD MMMM YYYY',
-        clearButton: true,
-        weekStart: 1,
-        time: false
-    });
 
     // Verifikasi Kegiatan
 	var wrapper = $('.wrap');
@@ -492,4 +486,33 @@ $(document).ready(function() {
             'excel', 'pdf', 'print'
         ]
     });
+
+    // date picker
+    $('#bs_datepicker_range_container').datepicker({
+        autoclose: true,
+        format: "dd MM yyyy",
+        container: '#bs_datepicker_range_container'
+    });
+    $('#bs_datepicker_component_container').datepicker({
+        autoclose: true,
+        format: "dd MM yyyy",
+        container: '#bs_datepicker_component_container'
+    });
+    
+
+    // date end show (lebih dari 1 hari)
+    var date_end = $("input[name='keg_finish']");
+    var date_end_icon = $(".keg_finish");
+    var sd = $(".sd");
+    $('#date_end_show').on("change", function(){
+    	if ($(this).prop("checked")) {
+    		sd.removeAttr("style");
+    		date_end.removeAttr("style");
+    		date_end_icon.removeAttr("style");
+    	}else{
+    		sd.css("display","none");
+    		date_end.css("display","none");
+    		date_end_icon.css("display","none");
+    	}
+    })
 });

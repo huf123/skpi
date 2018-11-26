@@ -29,14 +29,20 @@ class Auth extends CI_Controller {
 			if ($this->input->post('remember')) {
 				set_cookie('survey',random_string('alnum', 64),3600*24*30);
 			}
+			// jika mahasiswa
+			if ($row->role == 4) {
+				$mhs = $this->db->get_where('mst_mahasiswa',array('mhs_uid' => $row->uid),1)->row();
+				 // jika profil mahasiswa sudah ada, set session id mahasiswa (mhs_id)
+				if (!empty($mhs)) $this->session->set_userdata('mhs_id',$mhs->mhs_id);
+				// jika profil mahasiswa belum ada, set session userdata alert profile
+			}
+
 			$this->session->set_userdata('fullname',$row->fullname);
 			$this->session->set_userdata('uid',$row->uid);
 			$this->session->set_userdata('role',$row->role);
 			redirect($_SERVER['HTTP_REFERER'],'refresh');
-			// var_dump($row);
 		}else{
 			redirect(base_url('auth/login'),'refresh');
-			// var_dump($row);
 		}
 	}
 	public function logout()

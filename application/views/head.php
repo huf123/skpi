@@ -25,7 +25,7 @@
     <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.css" rel="stylesheet"/>
 
     <!-- JQuery DatePicker Css -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.5.0/css/bootstrap-material-datetimepicker.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
 
     <!-- Bootstrap star rating by Krajee -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.3/css/star-rating.min.css">
@@ -68,13 +68,12 @@
                 <a class="navbar-brand" href="<?php echo base_url() ?>dashboard">SKPI</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
-                            <?php echo $this->session->userdata('fullname');?>
-                            <i class="material-icons">keyboard_arrow_down</i>
-                        </a>
-                    </li>
+                <ul class="nav navbar-nav navbar-right" style="margin-top: 10px;color: white;font-weight: bold">
+                    <?php echo $this->session->userdata('fullname');?><br>
+                    Fakultas : Fakultas Ilmu Komputer&nbsp;
+                    <a class="btn btn-primary waves-effect" href="<?php echo base_url() ?>auth/logout" style="padding:0;top:-15px">
+                        <i class="material-icons" style="font-size:40px;">exit_to_app</i>
+                    </a>
                 </ul>           
             </div>
         </div>
@@ -140,10 +139,16 @@
                 <h2>                
                     <ol class="breadcrumb breadcrumb-col-blue" style="padding-left: 0">
                         <li><a href="javascript:void(0);"><i class="material-icons">dashboard</i> Dashboard</a></li>
+                        <?php if (isset($bread)){ ?>
                         <li><i class="material-icons"><?php echo $icon ?></i> <?php echo $bread ?></li>
-                        <?php if (isset($subbread)){?>
+                        <?php } if (isset($subbread)){?>
                         <li class="active"><i class="material-icons"><?php echo $subicon ?></i> <?php echo $subbread ?></li>
                         <?php } ?>
                     </ol>
                 </h2>
+                <?php if (!$this->session->userdata('mhs_id') AND $this->session->userdata('role')==4){ ?>
+                <div class="alert alert-danger">
+                    <strong>Perhatian!</strong> Sebelum mengisi kegiatan, lengkapi profil terlebih dahulu di <a href="<?php echo base_url('dashboard/profil') ?>" style="color: #fff;font-weight: bold">Halaman Profil</a>.
+                </div>
+                <?php } ?>
             </div>

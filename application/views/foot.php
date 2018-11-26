@@ -39,24 +39,15 @@
     <!-- Bootstrap star rating by Krajee -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.3/js/star-rating.min.js"></script>
 
-    <!-- ChartJs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js"></script>
-
-    <!-- jQuery Validation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-
     <!-- Bootstrap ColorPicker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/js/bootstrap-colorpicker.min.js"></script>
 
     <!-- Bootstrap Material DatePicker -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.5.0/js/bootstrap-material-datetimepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 
     <!-- AdminBSB custom js -->
     <script src="<?php echo base_url() ?>assets/js/admin.js"></script>
     <script src="<?php echo base_url() ?>assets/js/jquery-datatable.js"></script>
-
-    <!-- <script src="<?php echo base_url() ?>assets/js/chartjs.js"></script> -->
-    <script src="<?php echo base_url() ?>assets/js/validate.js"></script> 
 
     <!-- AdminBSB demo js -->
     <script src="<?php echo base_url() ?>assets/js/demo.js"></script>
