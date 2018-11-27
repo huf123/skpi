@@ -144,7 +144,7 @@
     <section class="content" style='margin-left:190px;'>
         <div class="container-fluid">
             <div class="block-header">
-                <h2>                
+                <h2>
                     <ol class="breadcrumb breadcrumb-col-blue" style="padding-left: 0">
                         <li><a href="javascript:void(0);"><i class="material-icons">dashboard</i> Dashboard</a></li>
                         <?php if (isset($bread)){ ?>
