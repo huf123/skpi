@@ -86,9 +86,9 @@
                                 <div class="row clearfix">
                                     <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                                         <button type="submit" class="btn btn-primary m-t-15 waves-effect simpan" disabled>
-                                            SIMPAN
+                                            <i class="material-icons">done</i><span>SIMPAN</span>
                                         </button>&nbsp;
-                                        <button type="button" class="btn btn-warning m-t-15 waves-effect cancel" style="margin-left: 15px">BATAL</button>
+                                        <button type="button" class="btn btn-warning m-t-15 waves-effect cancel" style="margin-left: 15px"><i class="material-icons">clear</i><span>BATAL</span></button>
                                     </div>
                                 </div>
                             <?php echo form_close(); ?>

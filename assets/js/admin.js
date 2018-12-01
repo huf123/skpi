@@ -490,12 +490,10 @@ $(document).ready(function() {
     // date picker
     $('#bs_datepicker_range_container').datepicker({
         autoclose: true,
-        format: "dd MM yyyy",
         container: '#bs_datepicker_range_container'
     });
     $('#bs_datepicker_component_container').datepicker({
         autoclose: true,
-        format: "dd MM yyyy",
         container: '#bs_datepicker_component_container'
     });
     

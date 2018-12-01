@@ -10,25 +10,22 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     
     <!-- Bootstrap Core Css -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="<?php echo base_url() ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Bootstrap Select -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <link href="<?php echo base_url() ?>assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet">
 
     <!-- Waves Effect Css -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.6/waves.min.css" rel="stylesheet"/>
+    <link href="<?php echo base_url() ?>assets/plugins/node-waves/waves.min.css" rel="stylesheet"/>
 
     <!-- Animation Css -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet"/>
+    <link href="<?php echo base_url() ?>assets/plugins/animate-css/animate.min.css" rel="stylesheet"/>
 
     <!-- JQuery DataTable Css -->
-    <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.css" rel="stylesheet"/>
+    <link href="<?php echo base_url() ?>assets/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
 
     <!-- JQuery DatePicker Css -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
-
-    <!-- Bootstrap star rating by Krajee -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.3/css/star-rating.min.css">
+    <link href="<?php echo base_url() ?>assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
 
     <!-- Custom Css -->
     <link href="<?php echo base_url() ?>assets/css/style.min.css" rel="stylesheet"/>
@@ -37,7 +34,7 @@
     <link href="<?php echo base_url() ?>assets/css/theme-blue.min.css" rel="stylesheet"/>
 
     <!-- JQuery Core js -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="<?php echo base_url() ?>assets/plugins/jquery-3.3.1.min.js"></script>
 
 </head>
 
