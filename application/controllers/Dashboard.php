@@ -6,14 +6,13 @@ class Dashboard extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->uid = $this->session->userdata('uid');
 		$this->role = $this->session->userdata('role');
 		$this->uname = $this->session->userdata('uname');
 		$this->mhs_id = $this->session->userdata('mhs_id');
 		$this->fullname = $this->session->userdata('fullname');
 
 		$this->load->model('skpi_model');
-		if(!$this->role)
+		if(!$this->uname)
 			redirect(base_url('auth/login'),'refresh');
 	}
 
@@ -38,16 +37,17 @@ class Dashboard extends CI_Controller {
 
 		$this->load->view('head', $data);
 		
-		// Tampilan halaman profil (admin, p.dekan, kemahasiswaan)
-		if($role==1 OR $role==2 OR $role==3) {
+		// Tampilan halaman profil (1. admin, 3. kemahasiswaan, 4. p.dekan)
+		if($role==1 OR $role==3 OR $role==4) {
 			$data["title"] = "Daftar Profil Mahasiswa";
 			$data["profil"] = $this->skpi_model->profil_mhs('')->result();
 			$this->load->view('profil_staff_view', $data);
 		}
 		
-		// Tampilan halaman profil (mahasiswa)
-		elseif ($role==4) {
-			$data["profil"] = $this->skpi_model->profil_mhs('WHERE mhs_nim = '.$mhs)->row();
+		// Tampilan halaman profil (2. mahasiswa)
+		elseif ($role==2) {
+			// $data["profil"] = $this->skpi_model->profil_mhs('WHERE nim = '.$mhs)->row();
+			$data["profil"] = $this->db->get_where('tb_mahasiswa','nim='.$mhs)->row();
 			if (isset($data["profil"])) {
 				$data["url"] = 'dashboard/profil_update';
 			} else{
@@ -63,25 +63,25 @@ class Dashboard extends CI_Controller {
 	public function profil_save()
 	{
 		$data = array(
-			'mhs_nim' => $this->uname,
-			'mhs_name' => $this->input->post('mhs_name'),
-			'mhs_phone' => $this->input->post('mhs_phone'),
-			'mhs_birthplace' => $this->input->post('mhs_birthplace'),
-			'mhs_birthdate' => date("d-m-Y",strtotime($this->input->post('mhs_birthdate'))),
-			'mhs_address' => $this->input->post('mhs_address'));
-		$this->db->insert('mst_mahasiswa', $data);		
-		$this->session->set_userdata('mhs_id',$this->db->insert_id());
+			'nim' => $this->uname,
+			'name' => $this->input->post('mhs_name'),
+			'handphone' => $this->input->post('mhs_phone'),
+			'kota_lahir' => $this->input->post('mhs_birthplace'),
+			'tgl_lahir' => date("d-m-Y",strtotime($this->input->post('mhs_birthdate'))),
+			'alamat' => $this->input->post('mhs_address'));
+		$this->db->insert('tb_mahasiswa', $data);
+		$this->session->set_userdata('mhs_id',$this->uname);
 		redirect(base_url('dashboard/profil'),'refresh');
 	}
 	// Mengupdate profil mahasiswa (setelah diedit)
 	public function profil_update()
 	{
 		$data = array(
-			'mhs_phone' => $this->input->post('mhs_phone'),
-			'mhs_birthplace' => $this->input->post('mhs_birthplace'),
-			'mhs_birthdate' => date_format(date_create($this->input->post('mhs_birthdate')),'Y-m-d'),
-			'mhs_address' => $this->input->post('mhs_address'));
-		$this->db->update('mst_mahasiswa', $data, array('mhs_nim' => $this->uname));
+			'handphone' => $this->input->post('mhs_phone'),
+			'kota_lahir' => $this->input->post('mhs_birthplace'),
+			'tgl_lahir' => date_format(date_create($this->input->post('mhs_birthdate')),'Y-m-d'),
+			'alamat' => $this->input->post('mhs_address'));
+		$this->db->update('tb_mahasiswa', $data, array('nim' => $this->mhs_id));
 		redirect(base_url('dashboard/profil'),'refresh');
 	}
 

@@ -490,10 +490,12 @@ $(document).ready(function() {
     // date picker
     $('#bs_datepicker_range_container').datepicker({
         autoclose: true,
+        format: "dd MM yyyy",
         container: '#bs_datepicker_range_container'
     });
     $('#bs_datepicker_component_container').datepicker({
         autoclose: true,
+        format: "dd MM yyyy",
         container: '#bs_datepicker_component_container'
     });
     
@@ -515,11 +517,19 @@ $(document).ready(function() {
     })
     var form_wrap = $("#form_wrap");
     $('.edit_profil').on("click",function(){
+    	$(this).css("display","none");
+    	$('.cancel_edit').css("display","inline");
+    	form_wrap.find('input').removeAttr("style");
+    	form_wrap.find('textarea').removeAttr("style");
     	form_wrap.find('input').prop({disabled:false});
     	form_wrap.find('textarea').prop({disabled:false});
     	form_wrap.find('.simpan').prop({disabled:false});
     })
-    $('.cancel').on("click",function(){
+    $('.cancel_edit').on("click",function(){
+    	$(this).css("display","none");
+    	$('.edit_profil').css("display","inline");
+    	form_wrap.find('input').css("background-color","#DCDCDC");
+    	form_wrap.find('textarea').css("background-color","#DCDCDC");
     	form_wrap.find('input').prop({disabled:true});
     	form_wrap.find('textarea').prop({disabled:true});
     	form_wrap.find('.simpan').prop({disabled:true});

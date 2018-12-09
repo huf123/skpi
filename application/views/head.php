@@ -10,22 +10,25 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     
     <!-- Bootstrap Core Css -->
-    <link href="<?php echo base_url() ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Bootstrap Select -->
-    <link href="<?php echo base_url() ?>assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
     <!-- Waves Effect Css -->
-    <link href="<?php echo base_url() ?>assets/plugins/node-waves/waves.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.6/waves.min.css" rel="stylesheet"/>
 
     <!-- Animation Css -->
-    <link href="<?php echo base_url() ?>assets/plugins/animate-css/animate.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet"/>
 
     <!-- JQuery DataTable Css -->
-    <link href="<?php echo base_url() ?>assets/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.css" rel="stylesheet"/>
 
     <!-- JQuery DatePicker Css -->
-    <link href="<?php echo base_url() ?>assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+
+    <!-- Bootstrap star rating by Krajee -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.3/css/star-rating.min.css">
 
     <!-- Custom Css -->
     <link href="<?php echo base_url() ?>assets/css/style.min.css" rel="stylesheet"/>
@@ -34,7 +37,7 @@
     <link href="<?php echo base_url() ?>assets/css/theme-blue.min.css" rel="stylesheet"/>
 
     <!-- JQuery Core js -->
-    <script src="<?php echo base_url() ?>assets/plugins/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 </head>
 
@@ -67,7 +70,6 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right" style="margin-top: 10px;color: white;font-weight: bold">
                     <?php echo $this->session->userdata('fullname');?><br>
-                    Fakultas : Fakultas Ilmu Komputer&nbsp;
                     <a class="btn btn-primary waves-effect" href="<?php echo base_url() ?>auth/logout" style="padding:0;top:-15px">
                         <i class="material-icons" style="font-size:40px;">exit_to_app</i>
                     </a>
@@ -96,14 +98,14 @@
                             <span>Profil</span>
                         </a>
                     </li>
-                    <?php $role = $this->session->userdata('role'); if ($role==1 OR $role==2 OR $role==3){ ?>
+                    <?php $role = $this->session->userdata('role'); if ($role==1 OR $role==4 OR $role==3){ ?>
                     <li id="laporan">
                         <a href="<?php echo base_url('dashboard/laporan') ?>">
                             <i class="material-icons">description</i>
                             <span>Laporan</span>
                         </a> 
                     </li>                        
-                    <?php } elseif ($role==4) { ?>                        
+                    <?php } elseif ($role==2) { ?>                        
                     <li id="kegiatan">
                         <a href="<?php echo base_url('dashboard/kegiatan') ?>">
                             <i class="material-icons">work</i>
@@ -138,7 +140,7 @@
         </aside>
         <!-- #END# Left Sidebar -->
     </section>
-    <section class="content" style='margin-left:190px;'>
+    <section class="content" style='margin-left:190px;margin-bottom: 0;'>
         <div class="container-fluid">
             <div class="block-header">
                 <h2>
@@ -151,7 +153,7 @@
                         <?php } ?>
                     </ol>
                 </h2>
-                <?php if (!$this->session->userdata('mhs_id') AND $this->session->userdata('role')==4){ ?>
+                <?php if (!$this->session->userdata('uname') AND $this->session->userdata('role')==2){ ?>
                 <div class="alert alert-danger">
                     <strong>Perhatian!</strong> Sebelum mengisi kegiatan, lengkapi profil terlebih dahulu di <a href="<?php echo base_url('dashboard/profil') ?>" style="color: #fff;font-weight: bold">Halaman Profil</a>.
                 </div>

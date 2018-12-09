@@ -6,15 +6,16 @@ class Skpi_model extends CI_Model {
 	public function profil_mhs($other)
 	{ 
 		return $this->db->query("
-			SELECT mhs_id,mhs_name,mhs_nim,mhs_address,mhs_phone,
-				mhs_sex,mhs_birthplace,mhs_birthdate,mhs_department
-			FROM mst_mahasiswa ".$other);
+			SELECT nim,nama,id_jns_kelamin,email,alamat,
+				handphone,kota_lahir,tgl_lahir,jurusan
+			FROM tb_mahasiswa 
+			JOIN tb_jurusan ON tb_jurusan.id_jurusan = tb_mahasiswa.id_jurusan ".$other);
 	}
 	public function user($other)
 	{
 		return $this->db->query("
 			SELECT uid,uname,fullname,role,mod_date,mod_status,mod_uid
-			FROM mst_user ".$other);
+			FROM tb_user ".$other);
 	}
 }
 

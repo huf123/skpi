@@ -41,16 +41,18 @@
                                     </tr>
                                 </tfoot>
                                 <tbody> 
-                                    <?php foreach ($profil as $pro){ ?>
+                                    <?php foreach ($profil as $pro){ 
+                                        if ($pro->id_jns_kelamin==1) $jns_kelamin = "Laki-laki";
+                                        else $jns_kelamin = "Perempuan";?>
                                     <tr>
-                                        <td><?= $pro->mhs_nim ?></td>
-                                        <td><?= $pro->mhs_name ?></td>
-                                        <td><?= $pro->mhs_sex ?></td>
-                                        <td><?= $pro->mhs_birthplace ?></td>
-                                        <td><?= $pro->mhs_birthdate ?></td>
-                                        <td><?= $pro->mhs_address ?></td>
-                                        <td><?= $pro->mhs_phone ?></td>
-                                        <td><?= $pro->mhs_department ?></td>
+                                        <td><?= $pro->nim ?></td>
+                                        <td><?= $pro->nama ?></td>
+                                        <td><?= $jns_kelamin ?></td>
+                                        <td><?= $pro->kota_lahir ?></td>
+                                        <td><?= $pro->tgl_lahir ?></td>
+                                        <td><?= $pro->alamat ?></td>
+                                        <td><?= $pro->handphone ?></td>
+                                        <td><?= $pro->jurusan ?></td>
                                     </tr>
                                     <?php } ?>
                                 </tbody>

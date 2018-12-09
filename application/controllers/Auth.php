@@ -21,25 +21,26 @@ class Auth extends CI_Controller {
 	{
 		// set_cookie
 		$data = array(
-			"uname" => $this->input->post('uname'),
-			"upwd" => md5($this->input->post('upwd')));
-		$row = $this->db->get_where('mst_user',$data,1)->row();
+			"username" => $this->input->post('uname'),
+			"password" => $this->input->post('upwd'));
+		$row = $this->db->get_where('tb_user',$data,1)->row();
 
 		if($row){
 			if ($this->input->post('remember')) {
 				set_cookie('survey',random_string('alnum', 64),3600*24*30);
 			}
 			// jika mahasiswa
-			if ($row->role == 4) {
-				$mhs = $this->db->get_where('mst_mahasiswa',array('mhs_nim' => $row->uname),1)->row();
+			if ($row->id_level == 4) {
+				$mhs = $this->db->get_where('tb_mahasiswa',array('nim' => $row->username),1)->row();
 				 // jika profil mahasiswa sudah ada, set session id mahasiswa (mhs_id)
-				if (!empty($mhs)) $this->session->set_userdata('mhs_id',$mhs->mhs_id);
+				if (!empty($mhs)) $this->session->set_userdata('mhs_id',$mhs->nim);
+				$this->session->set_userdata('fullname',$mhs->nama);
 			}
-			$this->session->set_userdata('uid',$row->uid);
-			$this->session->set_userdata('fullname',$row->fullname);
-			$this->session->set_userdata('uname',$row->uname);
-			$this->session->set_userdata('role',$row->role);
-			redirect($_SERVER['HTTP_REFERER'],'refresh');
+			// $this->session->set_userdata('uid',$row->uid);
+			$this->session->set_userdata('uname',$row->username);
+			$this->session->set_userdata('role',$row->id_level);
+
+			redirect(base_url('dashboard'),'refresh');
 		}else{
 			redirect(base_url('auth/login'),'refresh');
 		}
