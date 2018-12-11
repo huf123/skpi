@@ -93,12 +93,13 @@ class Dashboard extends CI_Controller {
 		$data["icon"] = "work";
 
 		$data["kegiatan"] = $this->db->query("
-			SELECT keg_id,keg_name,keg_name_eng,keg_desc,keg_kepesertaan,
-				keg_bidang,keg_bentuk,keg_start,keg_finish,keg_file,keg_status
-			FROM mst_kegiatan
-			JOIN mst_mahasiswa ON keg_mahasiswa = mhs_id
-			JOIN mst_user ON mhs_nim = uname
-			WHERE mhs_nim = $this->uname")->result();
+			SELECT id_transaksi,nama_kg,info,bentuk,waktu,sertifikat
+			FROM tb_transaksi
+			LEFT JOIN tb_bidang ON tb_transaksi.id_bidang = tb_bidang.id_bidang
+			JOIN tb_bentuk ON tb_bidang.id_bidang = tb_bentuk.id_bidang
+			JOIN tb_bentuk_peranan ON tb_bentuk.id_bentuk = tb_bentuk_peranan.id_bentuk
+			JOIN tb_peranan ON tb_bentuk_peranan.id_peranan = tb_peranan.id_peranan
+			WHERE nim = $this->uname")->result();
 
 		$this->load->view('head', $data);
 		$this->load->view('kegiatan_mhs', $data);
@@ -199,9 +200,9 @@ class Dashboard extends CI_Controller {
 		$data["icon"] = "description";
 
 		$data["laporan"] = $this->db->query("
-			SELECT mhs_nim, mhs_name, mhs_department, keg_name, keg_file, keg_id
-			FROM mst_mahasiswa
-			LEFT JOIN mst_kegiatan ON keg_mahasiswa = mhs_id")->result();
+			SELECT id_transaksi,nim,id_ukm,nama_kg,waktu,sertifikat,nama kegiatan
+			FROM tb_transaksi
+			JOIN tb_kegiatan ON tb_transaksi.id_kegiatan = tb_kegiatan.id_kegiatan")->result();
 
 		$this->load->view('head', $data);		
 		$this->load->view('laporan_view', $data);
