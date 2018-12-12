@@ -45,20 +45,19 @@
                                     </tr>
                                 </tfoot>
                                 <tbody> 
-                                    <?php foreach ($profil as $pro){ ?>
+                                    <?php foreach ($laporan as $lapor){ ?>
                                     <tr>
-                                        <td><?= $pro->mhs_nim ?></td>
-                                        <td><?= $pro->mhs_name ?></td>
-                                        <td><?= $pro->mhs_department ?></td>
-                                        <td><?= $pro->keg_name ?></td>
+                                        <td><?= $lapor->nim ?></td>
+                                        <td><?= $lapor->nama ?></td>
+                                        <td><?= $lapor->mhs_department ?></td>
+                                        <td><?= $lapor->nama_kg ?></td>
                                         <td></td>
-                                        <td>
-                                            adasdasda
+                                        <td><?php if ($lapor->approval==1) $approval = "Disetujui";$color = "green"; else $approval = "Tidak disetujui";$color = "red";?>
+                                            <p style="color:<?php echo $color ?>">$approval</p>
                                         </td>
-                                        <td>
-                                            <a href="">
-                                                <i class="material-icons">insert_drive_file</i>
-                                            </a>
+                                        <td style='text-align:center'><?php $sert = $keg->sertifikat;
+                                          if (!empty($sert)) echo anchor(base_url("dashboard/assets/files/".$sert),"<i class='material-icons'>insert_drive_file
+                                          </i>");?>
                                         </td>
                                     </tr>
                                     <?php } ?>

@@ -13,16 +13,23 @@
                             Daftar <?= $title ?>&nbsp;
                             <a href="<?php echo base_url() ?>dashboard/kegiatan/add" class="btn btn-default waves-effect waves-float" style="font-weight: bold;">
                                 <i class="material-icons" style="color: #000!important">add</i>
-                                <span>TAMBAH</span>
+                                <span>TAMBAH KEGIATAN</span>
+                            </a>
+                            <a href="<?php echo base_url() ?>dashboard/kegiatan/add" class="btn btn-success waves-effect waves-float" style="font-weight: bold;float: right">
+                                <i class="material-icons">lock</i>
+                                <span>KUNCI KEGIATAN & GENERATE TRANSKRIP</span>
                             </a>
                         </h2>
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table style="width:100%" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                            <table style="width:100%;" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                     <tr>
-                                        <th>Nama</th>
+                                        <th>
+                                          <input type="checkbox" id="md_checkbox_26" class="filled-in chk-col-blue">
+                                        </th>
+                                        <th width="30%">Nama</th>
                                         <th>Bidang</th>
                                         <th>Bentuk</th>
                                         <th>Level</th>
@@ -35,6 +42,9 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
+                                        <th>
+                                          <input type="checkbox" id="md_checkbox_26" class="filled-in chk-col-blue">
+                                        </th>
                                         <th>Nama</th>
                                         <th>Bidang</th>
                                         <th>Bentuk</th>
@@ -49,15 +59,36 @@
                                 <tbody> 
                                     <?php foreach ($kegiatan as $keg){ ?>
                                     <tr>
-                                        <td><?= $keg->keg_name ?></td>
-                                        <td><?= $keg->keg_bidang ?></td>
-                                        <td><?= $keg->keg_bentuk ?></td>
-                                        <td><?= $keg->keg_level ?></td>
-                                        <td><?= $keg->keg_kepesertaan ?></td>
-                                        <td><?= $keg->keg_start.' - '.$keg->keg_finish ?></td>
+                                        <td style='text-align:center'>
+                                          <input type="checkbox" id="md_checkbox_26" name="id_transaksi" value="<?php echo $keg->id_transaksi ?>" class="filled-in chk-col-blue">
+                                        </td>
+                                        <td>
+                                          <?= $keg->nama_kg."<br>";
+                                            echo anchor(base_url("dashboard/kegiatan_edit/".$keg->id_transaksi), 'Edit');
+                                            echo ' | ';
+                                            echo anchor(base_url("dashboard/kegiatan_delete/".$keg->id_transaksi), 'Delete'); ?>
+                                        </td>
+                                        <td><?= $keg->info ?></td>
+                                        <td><?= $keg->bentuk ?></td>
+                                        <td><?= $keg->tingkatan ?></td>
+                                        <td><?= $keg->peranan ?></td>
+                                        <td>
+                                          <?php if (strtotime($keg->tgl_mulai) != 0) {
+                                              echo date_format(date_create($keg->tgl_mulai),"j F Y");
+                                          } if (strtotime($keg->tgl_selesai) != 0) {
+                                              echo ' - '.date_format(date_create($keg->tgl_selesai),"j F Y");
+                                          } ?>
+                                        </td>
                                         <td></td>
-                                        <td><?= $keg->keg_status ?></td>
-                                        <td><?= $keg->keg_file ?></td>
+                                        <td><?php if ($keg->approval==1) {$approval = "Disetujui";$color = "green";} else {$approval = "Tidak disetujui";$color = "red";}?>
+                                            <p style="color:<?php echo $color ?>">
+                                              <?php echo $approval ?>
+                                            </p>
+                                        </td>
+                                        <td style='text-align:center'><?php $sert = $keg->sertifikat;
+                                          if (!empty($sert)) echo anchor(base_url("dashboard/assets/files/".$sert),"<i class='material-icons'>insert_drive_file
+                                          </i>");?>
+                                        </td>
                                     </tr>
                                     <?php } ?>
                                 </tbody>

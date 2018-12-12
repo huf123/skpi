@@ -92,14 +92,7 @@ class Dashboard extends CI_Controller {
 		$data["bread"] = "Kegiatan";
 		$data["icon"] = "work";
 
-		$data["kegiatan"] = $this->db->query("
-			SELECT id_transaksi,nama_kg,info,bentuk,waktu,sertifikat
-			FROM tb_transaksi
-			LEFT JOIN tb_bidang ON tb_transaksi.id_bidang = tb_bidang.id_bidang
-			JOIN tb_bentuk ON tb_bidang.id_bidang = tb_bentuk.id_bidang
-			JOIN tb_bentuk_peranan ON tb_bentuk.id_bentuk = tb_bentuk_peranan.id_bentuk
-			JOIN tb_peranan ON tb_bentuk_peranan.id_peranan = tb_peranan.id_peranan
-			WHERE nim = $this->uname")->result();
+		$data["kegiatan"] = $this->skpi_model->laporan_kegiatan('WHERE nim = '.$this->uname)->result();
 
 		$this->load->view('head', $data);
 		$this->load->view('kegiatan_mhs', $data);
@@ -181,6 +174,11 @@ class Dashboard extends CI_Controller {
 		$this->db->update('mst_kegiatan', $data);
 		redirect(base_url('dashboard/kegiatan'),'refresh');
 	}
+	public function kegiatan_delete($id)
+	{
+		$this->db->delete('tb_transaksi',array('id_transaksi' => $id));
+		redirect(base_url('dashboard/kegiatan'),'refresh');
+	}
 
 	// Halaman Transkrip
 	public function transkrip()
@@ -199,10 +197,7 @@ class Dashboard extends CI_Controller {
 		$data["bread"] = "Laporan";
 		$data["icon"] = "description";
 
-		$data["laporan"] = $this->db->query("
-			SELECT id_transaksi,nim,id_ukm,nama_kg,waktu,sertifikat,nama kegiatan
-			FROM tb_transaksi
-			JOIN tb_kegiatan ON tb_transaksi.id_kegiatan = tb_kegiatan.id_kegiatan")->result();
+		$data["laporan"] = $this->skpi_model->laporan_kegiatan('')->result();
 
 		$this->load->view('head', $data);		
 		$this->load->view('laporan_view', $data);
