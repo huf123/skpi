@@ -14,7 +14,7 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <?php echo form_open_multipart(base_url('dashboard/kegiatan_save')); ?>
+                            <?php echo form_open_multipart(base_url($url),"class='form-horizontal'"); ?>
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
                                         <label for="keg_name">Nama kegiatan</label>
@@ -57,12 +57,11 @@
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
-                                            <select class="form-control show-tick" name="keg_bidang" id="keg_bidang" required>
+                                            <select class="form-control show-tick bidang" name="id_bidang" id="id_bidang" required>
                                                 <option value="">-- Pilih bidang kegiatan --</option>
-                                                <option value="1">Penalaran</option>
-                                                <option value="2">Minat bakat</option>
-                                                <option value="3">Pengabdian kepada masyarakat</option>
-                                                <option value="4">Kegiatan kesejahteraan mahasiswa</option>
+                                                <?php foreach ($bidang as $bid){ ?>
+                                                <option value="<?php echo $bid->id_bidang ?>"><?php echo $bid->info ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -73,7 +72,7 @@
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
-                                            <select class="form-control show-tick" name="keg_bentuk" id="keg_bentuk" required>
+                                            <select class="form-control show-tick bentuk" name="keg_bentuk" id="keg_bentuk" required>
                                                 <option value="">-- Pilih bentuk kegiatan --</option>
                                                 <option value="1">Seminar</option>
                                                 <option value="2">Workshop/lokakarya</option>
@@ -85,12 +84,12 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="keg_kepesertaan">Jenis kepesertaan</label>
+                                        <label for="keg_kepesertaan">Jenis Peranan</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
-                                            <select class="form-control show-tick" name="keg_kepesertaan" id="keg_kepesertaan" required>
-                                                <option value="">-- Pilih jenis kepesertaan --</option>
+                                            <select class="form-control show-tick peran" name="keg_kepesertaan" id="keg_kepesertaan" required>
+                                                <option value="">-- Pilih jenis Peranan --</option>
                                                 <option value="1">Peserta</option>
                                                 <option value="2">Panitia</option>
                                                 <option value="3">Anggota</option>
@@ -100,18 +99,15 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="keg_level">Level kegiatan</label>
+                                        <label for="keg_level">Tingkatan kegiatan</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <select class="form-control show-tick" name="keg_level" id="keg_level" required>
-                                                <option value="">-- Pilih level kegiatan --</option>
-                                                <option value="1">Jurusan</option>
-                                                <option value="2">Fakultas</option>
-                                                <option value="3">Universitas</option>
-                                                <option value="4">Regional kota</option>
-                                                <option value="5">Regional provinsi</option>
-                                                <option value="6">Nasional</option>
+                                                <option value="">-- Pilih tingkatan kegiatan --</option>
+                                                <?php foreach ($tingkatan as $ting){ ?>
+                                                <option value="<?php echo $ting->id_tingkatan ?>"><?php echo $ting->tingkatan ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>

@@ -534,4 +534,21 @@ $(document).ready(function() {
     	form_wrap.find('textarea').prop({disabled:true});
     	form_wrap.find('.simpan').prop({disabled:true});
     })
+
+    var base_url = window.location.origin;
+    $('.bidang').on("click",function(){
+    	var id_bidang = $(this).val();
+    	console.log(id_bidang)
+   //  	$.ajax({
+   //  		type : "post",
+			// url:base_url+"/skpi/dashboard/kegiatan_bentuk",
+			// data:{id_bidang:id_bidang}
+   //  	})
+   //  	.done(function(data){
+   //  		console.log(data);
+   //  		$('.bentuk').each(data,function(i, order){
+	  //   		$(this).append('<option value="'+data+'"></option>')
+   //  		});
+   //  	})
+    })
 });

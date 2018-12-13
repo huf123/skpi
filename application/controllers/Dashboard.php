@@ -91,27 +91,34 @@ class Dashboard extends CI_Controller {
 		$data["title"] = "Kegiatan";
 		$data["bread"] = "Kegiatan";
 		$data["icon"] = "work";
-
 		$data["kegiatan"] = $this->skpi_model->laporan_kegiatan('WHERE nim = '.$this->uname)->result();
 
 		$this->load->view('head', $data);
 		$this->load->view('kegiatan_mhs', $data);
 		$this->load->view('foot');
 	}
+	public function kegiatan_bentuk()
+	{
+		$data["bentuk"] = $this->db->get_where('tb_bentuk',array('id_bidang' => $this->input->post('id_bidang')))->result();
+	}
 	public function kegiatan_add()
 	{
-		if (isset($this->mhs_id)){
+		// if (isset($this->mhs_id)){
 			$data["title"] = "Tambah Kegiatan";
 			$data["bread"] = "Kegiatan";
 			$data["icon"] = "work";
 			$data["subbread"] = "Tambah";
 			$data["subicon"] = "add";
 
+			$data["url"] = 'dashboard/kegiatan_save';
+			$data["bidang"] = $this->db->get('tb_bidang')->result();
+			$data["tingkatan"] = $this->db->get('tb_tingkatan')->result();
+
 			$this->load->view('head', $data);
 			$this->load->view('kegiatan_add', $data);
 			$this->load->view('foot');
-		}
-		else redirect(base_url('dashboard/profil'),'refresh');
+		// }
+		// else redirect(base_url('dashboard/profil'),'refresh');
 	}
 	public function kegiatan_save()
 	{

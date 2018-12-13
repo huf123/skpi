@@ -26,9 +26,6 @@
                             <table style="width:100%;" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                     <tr>
-                                        <th>
-                                          <input type="checkbox" id="md_checkbox_26" class="filled-in chk-col-blue">
-                                        </th>
                                         <th width="30%">Nama</th>
                                         <th>Bidang</th>
                                         <th>Bentuk</th>
@@ -42,9 +39,6 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>
-                                          <input type="checkbox" id="md_checkbox_26" class="filled-in chk-col-blue">
-                                        </th>
                                         <th>Nama</th>
                                         <th>Bidang</th>
                                         <th>Bentuk</th>
@@ -59,9 +53,6 @@
                                 <tbody> 
                                     <?php foreach ($kegiatan as $keg){ ?>
                                     <tr>
-                                        <td style='text-align:center'>
-                                          <input type="checkbox" id="md_checkbox_26" name="id_transaksi" value="<?php echo $keg->id_transaksi ?>" class="filled-in chk-col-blue">
-                                        </td>
                                         <td>
                                           <?= $keg->nama_kg."<br>";
                                             echo anchor(base_url("dashboard/kegiatan_edit/".$keg->id_transaksi), 'Edit');
