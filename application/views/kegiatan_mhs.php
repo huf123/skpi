@@ -31,10 +31,10 @@
                                         <th>Bentuk</th>
                                         <th>Level</th>
                                         <th>Kepesertaan</th>
-                                        <th>Tanggal</th>
+                                        <th width="8%">Tanggal</th>
                                         <th>Keterangan Softskill</th>
                                         <th>Aproval</th>
-                                        <th width="10%">Dokumen</th>
+                                        <th width="1%">Dokumen</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -55,9 +55,7 @@
                                     <tr>
                                         <td>
                                           <?= $keg->nama_kg."<br>";
-                                            echo anchor(base_url("dashboard/kegiatan_edit/".$keg->id_transaksi), 'Edit');
-                                            echo ' | ';
-                                            echo anchor(base_url("dashboard/kegiatan_delete/".$keg->id_transaksi), 'Delete'); ?>
+                                            echo anchor(base_url("dashboard/kegiatan_delete/".$keg->id_transaksi), 'Delete','style="color:red"'); ?>
                                         </td>
                                         <td><?= $keg->info ?></td>
                                         <td><?= $keg->bentuk ?></td>
@@ -77,7 +75,7 @@
                                             </p>
                                         </td>
                                         <td style='text-align:center'><?php $sert = $keg->sertifikat;
-                                          if (!empty($sert)) echo anchor(base_url("dashboard/assets/files/".$sert),"<i class='material-icons'>insert_drive_file
+                                          if (!empty($sert)) echo anchor(base_url("assets/files/".$sert),"<i class='material-icons'>insert_drive_file
                                           </i>");?>
                                         </td>
                                     </tr>

@@ -39,7 +39,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row clearfix">
+                                <!-- <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
                                         <label for="keg_desc">Deskripsi kegiatan</label>
                                     </div>
@@ -50,14 +50,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
                                         <label for="keg_bidang">Bidang kegiatan</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
-                                            <select class="form-control show-tick bidang" name="id_bidang" id="id_bidang" required>
+                                            <select class="form-control show-tick bidang" name="keg_bidang" id="keg_bidang" required>
                                                 <option value="">-- Pilih bidang kegiatan --</option>
                                                 <?php foreach ($bidang as $bid){ ?>
                                                 <option value="<?php echo $bid->id_bidang ?>"><?php echo $bid->info ?></option>
@@ -74,36 +74,29 @@
                                         <div class="form-group">
                                             <select class="form-control show-tick bentuk" name="keg_bentuk" id="keg_bentuk" required>
                                                 <option value="">-- Pilih bentuk kegiatan --</option>
-                                                <option value="1">Seminar</option>
-                                                <option value="2">Workshop/lokakarya</option>
-                                                <option value="3">Kuliah tamu/umum</option>
-                                                <option value="4">Menulis karya ilmiah</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="keg_kepesertaan">Jenis Peranan</label>
+                                        <label for="keg_peran">Jenis Peranan</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
-                                            <select class="form-control show-tick peran" name="keg_kepesertaan" id="keg_kepesertaan" required>
+                                            <select class="form-control show-tick peran" name="keg_peran" id="keg_peran" required>
                                                 <option value="">-- Pilih jenis Peranan --</option>
-                                                <option value="1">Peserta</option>
-                                                <option value="2">Panitia</option>
-                                                <option value="3">Anggota</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="keg_level">Tingkatan kegiatan</label>
+                                        <label for="keg_tingkat">Tingkatan kegiatan</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
-                                            <select class="form-control show-tick" name="keg_level" id="keg_level" required>
+                                            <select class="form-control show-tick" name="keg_tingkat" id="keg_tingkat" required>
                                                 <option value="">-- Pilih tingkatan kegiatan --</option>
                                                 <?php foreach ($tingkatan as $ting){ ?>
                                                 <option value="<?php echo $ting->id_tingkatan ?>"><?php echo $ting->tingkatan ?></option>
@@ -114,7 +107,7 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="password_2">Tanggal pelaksanaan</label>
+                                        <label for="date">Tanggal pelaksanaan</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
@@ -125,7 +118,7 @@
                                                 <span class="input-group-addon"><i class="material-icons">date_range</i></span>
                                                 <span class="input-group-addon sd" style="display: none">s.d.</span>
                                                 <div class="form-line">
-                                                    <input type="text" class="form-control" placeholder="Date end..."  name="keg_finish" style="display: none">
+                                                    <input type="text" class="form-control" placeholder="Date end..."  name="keg_finish" style="display: none" disabled>
                                                 </div>
                                                 <span class="input-group-addon keg_finish" style="display: none"><i class="material-icons">date_range</i></span>
                                             </div>

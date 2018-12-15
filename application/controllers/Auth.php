@@ -30,11 +30,13 @@ class Auth extends CI_Controller {
 				set_cookie('survey',random_string('alnum', 64),3600*24*30);
 			}
 			// jika mahasiswa
-			if ($row->id_level == 4) {
+			if ($row->id_level == 2) {
 				$mhs = $this->db->get_where('tb_mahasiswa',array('nim' => $row->username),1)->row();
 				 // jika profil mahasiswa sudah ada, set session id mahasiswa (mhs_id)
-				if (!empty($mhs)) $this->session->set_userdata('mhs_id',$mhs->nim);
-				$this->session->set_userdata('fullname',$mhs->nama);
+				if (!empty($mhs)) {
+					$this->session->set_userdata('mhs_id',$mhs->nim);
+					$this->session->set_userdata('fullname',$mhs->nama);
+				}
 			}
 			// $this->session->set_userdata('uid',$row->uid);
 			$this->session->set_userdata('uname',$row->username);

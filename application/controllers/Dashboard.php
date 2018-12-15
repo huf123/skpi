@@ -99,7 +99,13 @@ class Dashboard extends CI_Controller {
 	}
 	public function kegiatan_bentuk()
 	{
-		$data["bentuk"] = $this->db->get_where('tb_bentuk',array('id_bidang' => $this->input->post('id_bidang')))->result();
+		$bentuk = $this->db->get_where('tb_bentuk',array('id_bidang' => $this->input->post('id_bidang')))->result();
+		echo json_encode($bentuk);
+	}
+	public function kegiatan_peran()
+	{
+		$peran = $this->skpi_model->keg_peran($this->input->post('id_bentuk'));
+		echo json_encode($peran);
 	}
 	public function kegiatan_add()
 	{
@@ -122,64 +128,52 @@ class Dashboard extends CI_Controller {
 	}
 	public function kegiatan_save()
 	{
+		// var_dump($_POST);die();
 		$config['upload_path'] = FCPATH.'assets/files/';
 		$config['allowed_types'] = 'gif|jpg|png|pdf';
+
+		$keg_finish = $this->input->post('keg_finish');
+		if (strtotime($keg_finish)!=0) {
+			$keg_finish = date('Y-m-d',strtotime($keg_finish));
+		} else {
+			$keg_finish = 0;
+		}
 
 		// TIME TO UPLOAD
 		$this->load->library('upload',$config);
 		if($this->upload->do_upload('keg_file')){
 			$data = array(
 				// nama kegiatan
-				'keg_name' => $this->input->post('keg_name'),
+				'nama_kg' => $this->input->post('keg_name'),
+				// nama kegiatan (english)
+				'nama_kg_eng' => $this->input->post('keg_name_eng'),
 				// file lampiran sertifikat kegiatan
-				'keg_file' => $this->upload->data('file_name'),
+				'sertifikat' => $this->upload->data('file_name'),
 				// deskripsi kegiatan
-				'keg_desc' => $this->input->post('keg_desc'),
-				// bidang kegiatan : 1.Penelitian, 2.Minat bakat, 3.Pengabdian masyarakat
-				// 4.Kegiatan Kesejahteraan mahasiswa
-				'keg_bidang' => $this->input->post('keg_bidang'),
-				// status kepesertaan kegiatan : 1.Peserta, 2.Panitia, 3.Anggota
-				'keg_kepesertaan' => $this->input->post('keg_kepesertaan'),
-				// bentuk level : 
-				'keg_bentuk' => $this->input->post('keg_level'),
-				// bentuk kegiatan : 
-				'keg_bentuk' => $this->input->post('keg_bentuk'),
+				// 'keg_desc' => $this->input->post('keg_desc'),
+				// bidang kegiatan
+				'id_bidang' => $this->input->post('keg_bidang'),
+				// bentuk kegiatan
+				'id_bentuk' => $this->input->post('keg_bentuk'),
+				// status peran dalam kegiatan
+				'id_peranan' => $this->input->post('keg_peran'),
+				// tingkatan kegiatan
+				'id_tingkatan' => $this->input->post('keg_tingkat'),
 				// tanggal start & finish kegiatan
-				'keg_start' => $this->input->post('keg_start'),
-				'keg_finish' => $this->input->post('keg_finish'),
+				'tgl_mulai' => date('Y-m-d',strtotime($this->input->post('keg_start'))),
+				'tgl_selesai' => $keg_finish,
 				// nama mahasiswa yang mengikuti kegiatan
-				'keg_mahasiswa' => $this->session->userdata('mhs_id'));
-			$this->db->insert('mst_kegiatan', $data);
-
+				'nim' => $this->session->userdata('mhs_id'),
+				// status
+				'approval' => 0,'locked' => 0);
+			$this->db->insert('tb_transaksi', $data);
+			// die();
 			redirect(base_url('dashboard/kegiatan'),'refresh');
 		}
 		else{
 			$error = array('error' => $this->upload->display_errors());
 			var_dump($error);
 		}
-	}
-	public function kegiatan_edit($id)
-	{
-		if (isset($this->mhs_id)){
-			$data["title"] = "Edit Kegiatan";
-			$data["bread"] = "Kegiatan";
-			$data["icon"] = "work";
-			$data["subbread"] = "Edit";
-			$data["subicon"] = "edit";
-
-			$data["kegiatan"] = $this->db->get_where('mst_kegiatan',array('keg_id' => $id))->row();
-
-			$this->load->view('head', $data);
-			$this->load->view('kegiatan_edit', $data);
-			$this->load->view('foot');	
-		}		
-		else redirect(base_url('dashboard/profil'),'refresh');
-	}
-	public function kegiatan_update()
-	{	
-		$data = array('' => '');
-		$this->db->update('mst_kegiatan', $data);
-		redirect(base_url('dashboard/kegiatan'),'refresh');
 	}
 	public function kegiatan_delete($id)
 	{
@@ -195,6 +189,16 @@ class Dashboard extends CI_Controller {
 		$this->load->view('head', $data);
 		$this->load->view('transkrip_view', $data);
 		$this->load->view('foot');
+	}
+
+	public function generate()
+	{
+		$data['kegiatan'] = $this->skpi_model->laporan_kegiatan('WHERE nim = '.$this->uname)->result();
+		$this->load->library('pdf');
+		$this->pdf->setPaper('A4', 'potrait');
+		$this->pdf->filename = "transkrip-mahasiswa.pdf";
+		$this->pdf->loadHtml($this->load->view('transkrip_template',$data));
+		$this->pdf->render();
 	}
 
 	// Halaman Laporan

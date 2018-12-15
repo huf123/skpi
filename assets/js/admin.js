@@ -536,19 +536,54 @@ $(document).ready(function() {
     })
 
     var base_url = window.location.origin;
-    $('.bidang').on("click",function(){
-    	var id_bidang = $(this).val();
-    	console.log(id_bidang)
-   //  	$.ajax({
-   //  		type : "post",
-			// url:base_url+"/skpi/dashboard/kegiatan_bentuk",
-			// data:{id_bidang:id_bidang}
-   //  	})
-   //  	.done(function(data){
-   //  		console.log(data);
-   //  		$('.bentuk').each(data,function(i, order){
-	  //   		$(this).append('<option value="'+data+'"></option>')
-   //  		});
-   //  	})
+    // show Bentuk_kegiatan from specific Bidang_kegiatan
+    $('.bidang').on("change",function(){
+    	if ($(this).find('option').is(':checked')) {
+    		var id_bidang = $(this).val();
+	    	$.ajax({
+	    		type : "post",
+				url:base_url+"/skpi/dashboard/kegiatan_bentuk",
+				dataType : "json",
+				data:{id_bidang:id_bidang}
+	    	})
+	    	.done(function(data){
+	    		$.each(data,function(key,value){
+	    			$('.bentuk').find('ul').append(
+	    				'<li data-original-index="1">'+
+							'<a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false">'+
+								'<span class="text">'+value['bentuk']+'</span>'+
+								'<span class="glyphicon glyphicon-ok check-mark"></span>'+
+							'</a>'+
+						'</li>');
+	    			$('#keg_bentuk').append('<option value="'+value['id_bentuk']+'">'+value['bentuk']+'</option>');
+	    		});
+	    	})
+    	}
+    })
+
+    // show Peran_kegiatan from specific Bentuk_kegiatan
+    $('.bentuk').on("change",function(){
+    	if ($(this).find('option').is(':checked')) {
+    		var id_bentuk = $(this).val();
+	    	$.ajax({
+	    		type : "post",
+				url:base_url+"/skpi/dashboard/kegiatan_peran",
+				dataType : "json",
+				data:{id_bentuk:id_bentuk}
+	    	})
+	    	.done(function(data){
+	    		$.each(data,function(key,value){
+	    			console.log(value);
+	    			$('.peran').find('ul').append(
+	    				'<li data-original-index="1">'+
+							'<a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false">'+
+								'<span class="text">'+value['peranan']+'</span>'+
+								'<span class="glyphicon glyphicon-ok check-mark"></span>'+
+							'</a>'+
+						'</li>');
+	    			$('#keg_peran').append('<option value="'+value['id_peranan']+'">'+value['peranan']+'</option>');
+	    		});
+	    	})
+    	}
     })
 });
