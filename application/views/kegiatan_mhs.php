@@ -55,7 +55,9 @@
                                     <tr>
                                         <td>
                                           <?= $keg->nama_kg."<br>";
-                                            echo anchor(base_url("dashboard/kegiatan_delete/".$keg->id_transaksi), 'Delete','style="color:red"'); ?>
+                                            echo anchor(base_url("dashboard/kegiatan_edit/".$keg->id_transaksi), 'Edit','style="color:green"');
+                                            echo ' | ';
+                                            echo anchor(base_url("dashboard/kegiatan_delete/".$keg->id_transaksi), 'Delete','style="color:red"');?>
                                         </td>
                                         <td><?= $keg->info ?></td>
                                         <td><?= $keg->bentuk ?></td>

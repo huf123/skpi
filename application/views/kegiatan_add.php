@@ -139,12 +139,12 @@
                                                             $checked = 'checked';
                                                             $keg_finish = '';
                                                             $value = $kegiatan->tgl_selesai;
-                                                        } else{ 
-                                                            $checked = '';
-                                                            $keg_finish = 'style="display: none"';
-                                                            $value = $kegiatan->tgl_selesai;
                                                         }
-                                                    }?>>
+                                                    } else {
+                                                        $checked = '';
+                                                        $keg_finish = 'style="display: none"';
+                                                        $value = '';
+                                                    } ?>>
                                                 </div>
                                                 <span class="input-group-addon" style="padding-right: 10px"><i class="material-icons">date_range</i></span>
                                                 <span class="input-group-addon sd" <?php echo $keg_finish?>>s.d.</span>
