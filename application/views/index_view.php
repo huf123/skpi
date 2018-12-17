@@ -26,7 +26,7 @@
             </div>                
             <?php } if ($role==1 OR $role==4 OR $role==3) {?>
             <div class="col-lg-3 col-md-3 icon-button-demo">
-                <a href="<?php echo base_url('dashboard/transkrip')?>" type="button" class="btn btn-success waves-effect btn-dashboard">
+                <a href="<?php echo base_url('dashboard/laporan')?>" type="button" class="btn btn-success waves-effect btn-dashboard">
                     <i class="material-icons" style="font-size:60px">description</i><br>
                     Laporan
                 </a>

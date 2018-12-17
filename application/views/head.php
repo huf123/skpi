@@ -27,9 +27,6 @@
     <!-- JQuery DatePicker Css -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
 
-    <!-- Bootstrap star rating by Krajee -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.3/css/star-rating.min.css">
-
     <!-- Custom Css -->
     <link href="<?php echo base_url() ?>assets/css/style.min.css" rel="stylesheet"/>
 
@@ -68,11 +65,17 @@
                 <a class="navbar-brand" href="<?php echo base_url() ?>dashboard">SKPI</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right" style="margin-top: 10px;color: white;font-weight: bold">
-                    <?php echo $this->session->userdata('fullname');?><br>
-                    <a class="btn btn-primary waves-effect" href="<?php echo base_url() ?>auth/logout" style="padding:0;top:-15px">
-                        <i class="material-icons" style="font-size:40px;">exit_to_app</i>
-                    </a>
+                <ul class="nav navbar-nav navbar-right" style="margin-top: 5px;color: white;font-weight: bold">
+                    <li>
+                        <?php echo $this->session->userdata('fullname');?><br>
+                        <?php echo $this->session->userdata('uname');?><br>
+                        <?php echo $this->session->userdata('jurusan');?>
+                    </li>
+                    <li>               
+                        <a class="btn btn-primary waves-effect" href="<?php echo base_url() ?>auth/logout" style="padding:0;top:-12px">
+                            <i class="material-icons" style="font-size:40px;">exit_to_app</i>
+                        </a>
+                    </li>
                 </ul>           
             </div>
         </div>

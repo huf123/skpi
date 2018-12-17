@@ -22,7 +22,10 @@
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name ="keg_name" class="form-control" placeholder="Masukkan nama kegiatan" id="keg_name" required>
+                                                <input type="text" name ="keg_name" class="form-control" placeholder="Masukkan nama kegiatan" id="keg_name" required
+                                                <?php if (isset($kegiatan)){
+                                                    echo "value='".$kegiatan->nama_kg."'";
+                                                }?>>
                                             </div>
                                         </div>
                                     </div>
@@ -34,7 +37,10 @@
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name ="keg_name_eng" class="form-control" placeholder="Masukkan nama kegiatan dalam Bahasa Inggris" id="keg_name_eng" required>
+                                                <input type="text" name ="keg_name_eng" class="form-control" placeholder="Masukkan nama kegiatan dalam Bahasa Inggris" id="keg_name_eng" required
+                                                <?php if (isset($kegiatan)){
+                                                    echo "value='".$kegiatan->nama_kg_eng."'";
+                                                }?>>
                                             </div>
                                         </div>
                                     </div>
@@ -59,8 +65,14 @@
                                         <div class="form-group">
                                             <select class="form-control show-tick bidang" name="keg_bidang" id="keg_bidang" required>
                                                 <option value="">-- Pilih bidang kegiatan --</option>
-                                                <?php foreach ($bidang as $bid){ ?>
-                                                <option value="<?php echo $bid->id_bidang ?>"><?php echo $bid->info ?></option>
+                                                <?php foreach ($bidang as $bid){ $idbidang = $bid->id_bidang;?>
+                                                <option value="<?php echo $idbidang ?>"
+                                                    <?php if (isset($kegiatan)){
+                                                        $id_bidang = $kegiatan->id_bidang;
+                                                        if ($id_bidang == $idbidang) {
+                                                            echo " checked";
+                                                        }
+                                                    }?>><?php echo $bid->info ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -98,8 +110,15 @@
                                         <div class="form-group">
                                             <select class="form-control show-tick" name="keg_tingkat" id="keg_tingkat" required>
                                                 <option value="">-- Pilih tingkatan kegiatan --</option>
-                                                <?php foreach ($tingkatan as $ting){ ?>
-                                                <option value="<?php echo $ting->id_tingkatan ?>"><?php echo $ting->tingkatan ?></option>
+                                                <?php foreach ($tingkatan as $ting){ 
+                                                    $idtingkatan = $ting->id_tingkatan;?>
+                                                <option value="<?php echo $idtingkatan ?>"
+                                                    <?php if (isset($kegiatan)){
+                                                        $id_tingkatan = $kegiatan->id_tingkatan;
+                                                        if ($id_tingkatan == $idtingkatan) {
+                                                            echo "checked";
+                                                        }
+                                                    }?>><?php echo $ting->tingkatan ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -113,14 +132,26 @@
                                         <div class="form-group">
                                             <div class="input-daterange input-group" id="bs_datepicker_range_container">
                                                 <div class="form-line">
-                                                    <input type="text" class="form-control" placeholder="Date start..." required name="keg_start">
+                                                    <input type="text" class="form-control" placeholder="Date start..." required name="keg_start"
+                                                    <?php if (isset($kegiatan)){
+                                                    echo "value='".date_format(date_create($kegiatan->tgl_mulai),"j F Y")."'";
+                                                        if (strtotime($kegiatan->tgl_selesai) != 0){
+                                                            $checked = 'checked';
+                                                            $keg_finish = '';
+                                                            $value = $kegiatan->tgl_selesai;
+                                                        } else{ 
+                                                            $checked = '';
+                                                            $keg_finish = 'style="display: none"';
+                                                            $value = $kegiatan->tgl_selesai;
+                                                        }
+                                                    }?>>
                                                 </div>
-                                                <span class="input-group-addon"><i class="material-icons">date_range</i></span>
-                                                <span class="input-group-addon sd" style="display: none">s.d.</span>
+                                                <span class="input-group-addon" style="padding-right: 10px"><i class="material-icons">date_range</i></span>
+                                                <span class="input-group-addon sd" <?php echo $keg_finish?>>s.d.</span>
                                                 <div class="form-line">
-                                                    <input type="text" class="form-control" placeholder="Date end..."  name="keg_finish" style="display: none" disabled>
+                                                    <input type="text" class="form-control" placeholder="Date end..."  name="keg_finish" <?php echo $value.' '.$keg_finish?>>
                                                 </div>
-                                                <span class="input-group-addon keg_finish" style="display: none"><i class="material-icons">date_range</i></span>
+                                                <span class="input-group-addon keg_finish" <?php echo $keg_finish?>><i class="material-icons">date_range</i></span>
                                             </div>
                                             <input type="checkbox" class="filled-in chk-col-blue" id="date_end_show">
                                             <label for="date_end_show">Lebih dari 1 hari</label>
@@ -132,10 +163,12 @@
                                         <label for="password_2">Lampiran scan sertifikat</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <input type="file" name ="keg_file" class="form-control" required>
-                                            </div>
+                                        <div class="form-group" style="margin-top: 5px">
+                                            <?php if (isset($kegiatan)){
+                                                echo anchor("assets/files/".$kegiatan->sertifikat,'Tampilkan Sertifikat','style="color:green"');
+                                                echo " | ";
+                                                echo '<a href="javascript:void(0);" id="remove_sertifikat" style="color:red">Hapus</a>';
+                                            } else echo '<input type="file" name ="keg_file" class="form-control" required>'?>                                            
                                         </div>
                                     </div>
                                 </div>

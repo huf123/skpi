@@ -17,7 +17,7 @@
                             </a>
                             <a href="<?php echo base_url() ?>dashboard/kegiatan/add" class="btn btn-success waves-effect waves-float" style="font-weight: bold;float: right">
                                 <i class="material-icons">lock</i>
-                                <span>KUNCI KEGIATAN & GENERATE TRANSKRIP</span>
+                                <span>KUNCI KEGIATAN</span>
                             </a>
                         </h2>
                     </div>
@@ -26,7 +26,7 @@
                             <table style="width:100%;" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                     <tr>
-                                        <th width="30%">Nama</th>
+                                        <th width="20%">Nama</th>
                                         <th>Bidang</th>
                                         <th>Bentuk</th>
                                         <th>Level</th>

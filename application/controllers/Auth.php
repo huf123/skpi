@@ -31,9 +31,14 @@ class Auth extends CI_Controller {
 			}
 			// jika mahasiswa
 			if ($row->id_level == 2) {
-				$mhs = $this->db->get_where('tb_mahasiswa',array('nim' => $row->username),1)->row();
+				$mhs = $this->db->query("
+					SELECT nim,nama,jurusan
+					FROM tb_mahasiswa
+					JOIN tb_jurusan ON tb_mahasiswa.id_jurusan = tb_jurusan.id_jurusan
+					WHERE nim = ".$row->username." LIMIT 1")->row();
 				 // jika profil mahasiswa sudah ada, set session id mahasiswa (mhs_id)
 				if (!empty($mhs)) {
+					$this->session->set_userdata('jurusan',$mhs->jurusan);
 					$this->session->set_userdata('mhs_id',$mhs->nim);
 					$this->session->set_userdata('fullname',$mhs->nama);
 				}

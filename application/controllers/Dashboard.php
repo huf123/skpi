@@ -91,7 +91,7 @@ class Dashboard extends CI_Controller {
 		$data["title"] = "Kegiatan";
 		$data["bread"] = "Kegiatan";
 		$data["icon"] = "work";
-		$data["kegiatan"] = $this->skpi_model->laporan_kegiatan('WHERE nim = '.$this->uname)->result();
+		$data["kegiatan"] = $this->skpi_model->laporan_kegiatan('','WHERE nim = '.$this->uname)->result();
 
 		$this->load->view('head', $data);
 		$this->load->view('kegiatan_mhs', $data);
@@ -99,7 +99,7 @@ class Dashboard extends CI_Controller {
 	}
 	public function kegiatan_bentuk()
 	{
-		$bentuk = $this->db->get_where('tb_bentuk',array('id_bidang' => $this->input->post('id_bidang')))->result();
+		$bentuk =  $this->skpi_model->keg_bentuk($this->input->post('id_bidang'));
 		echo json_encode($bentuk);
 	}
 	public function kegiatan_peran()
@@ -109,7 +109,7 @@ class Dashboard extends CI_Controller {
 	}
 	public function kegiatan_add()
 	{
-		// if (isset($this->mhs_id)){
+		if (isset($this->mhs_id)){
 			$data["title"] = "Tambah Kegiatan";
 			$data["bread"] = "Kegiatan";
 			$data["icon"] = "work";
@@ -123,12 +123,11 @@ class Dashboard extends CI_Controller {
 			$this->load->view('head', $data);
 			$this->load->view('kegiatan_add', $data);
 			$this->load->view('foot');
-		// }
-		// else redirect(base_url('dashboard/profil'),'refresh');
+		}
+		else redirect(base_url('dashboard/profil'),'refresh');
 	}
 	public function kegiatan_save()
 	{
-		// var_dump($_POST);die();
 		$config['upload_path'] = FCPATH.'assets/files/';
 		$config['allowed_types'] = 'gif|jpg|png|pdf';
 
@@ -180,20 +179,93 @@ class Dashboard extends CI_Controller {
 		$this->db->delete('tb_transaksi',array('id_transaksi' => $id));
 		redirect(base_url('dashboard/kegiatan'),'refresh');
 	}
+	public function kegiatan_edit($id)
+	{
+		$data["title"] = "Edit Kegiatan";
+		$data["bread"] = "Kegiatan";
+		$data["icon"] = "work";
+		$data["subbread"] = "Edit";
+		$data["subicon"] = "edit";
+
+		$data["bidang"] = $this->db->get('tb_bidang')->result();
+		$data["tingkatan"] = $this->db->get('tb_tingkatan')->result();
+		$data["kegiatan"] = $this->skpi_model->laporan_kegiatan('tb_transaksi.id_bidang as id_bidang,tb_transaksi.id_bentuk as id_bentuk,tb_transaksi.id_tingkatan as id_tingkatan,tb_transaksi.id_peranan as id_peranan,',
+			'WHERE nim = '.$this->uname.' AND id_transaksi = '.$id.' LIMIT 1')->row();
+		$data['url'] = 'dashboard/kegiatan_update';
+
+		$this->load->view('head', $data);
+		$this->load->view('kegiatan_add', $data);
+		$this->load->view('foot');
+	}
+	public function kegiatan_update()
+	{
+		var_dump($_POST); die();
+		$keg_finish = $this->input->post('keg_finish');
+		if (strtotime($keg_finish)!=0) {
+			$keg_finish = date('Y-m-d',strtotime($keg_finish));
+		} else {
+			$keg_finish = 0;
+		}
+
+		$data = array(
+			// nama kegiatan
+			'nama_kg' => $this->input->post('keg_name'),
+			// nama kegiatan (english)
+			'nama_kg_eng' => $this->input->post('keg_name_eng'),
+			// deskripsi kegiatan
+			// 'keg_desc' => $this->input->post('keg_desc'),
+			// bidang kegiatan
+			'id_bidang' => $this->input->post('keg_bidang'),
+			// bentuk kegiatan
+			'id_bentuk' => $this->input->post('keg_bentuk'),
+			// status peran dalam kegiatan
+			'id_peranan' => $this->input->post('keg_peran'),
+			// tingkatan kegiatan
+			'id_tingkatan' => $this->input->post('keg_tingkat'),
+			// tanggal start & finish kegiatan
+			'tgl_mulai' => date('Y-m-d',strtotime($this->input->post('keg_start'))),
+			'tgl_selesai' => $keg_finish);
+
+		if ($this->input->post('keg_file')) {	
+			$config['upload_path'] = FCPATH.'assets/files/';
+			$config['allowed_types'] = 'gif|jpg|png|pdf';
+
+			$this->load->library('upload',$config);
+			if ($this->upload->do_upload('keg_file')) {			
+				// file lampiran sertifikat kegiatan
+				$data['sertifikat'] = $this->upload->data('file_name');
+			}
+		}
+
+		$this->db->update('tb_transaksi', $data, array('nim'=>$this->session->userdata('mhs_id')));
+		redirect(base_url('dashboard/kegiatan'),'refresh');
+	}
+	public function kegiatan_approve()
+	{
+		$where = array();
+		$id_transaksi = $this->input->post('id_transaksi');
+		var_dump($_POST);die();
+		array_push($where, $id_transaksi);
+		$this->db->update('tb_transaksi', 'approval = 1');
+		$this->db->where_in('id_transaksi', $where);
+		redirect(base_url('dashboard/kegiatan'),'refresh');
+	}
 
 	// Halaman Transkrip
 	public function transkrip()
 	{
-		$data["title"] = "Transkrip";
+		$data["title"] = "Transkrip Mahasiswa";
+		$data["bread"] = "Transkrip Mahasiswa";
+		$data["icon"] = "assignment";
 
-		$this->load->view('head', $data);
-		$this->load->view('transkrip_view', $data);
+		$this->load->view('head',$data);
+		$this->load->view('transkrip_view',$data);
 		$this->load->view('foot');
 	}
 
 	public function generate()
 	{
-		$data['kegiatan'] = $this->skpi_model->laporan_kegiatan('WHERE nim = '.$this->uname)->result();
+		$data['kegiatan'] = $this->skpi_model->laporan_kegiatan('','WHERE nim = '.$this->uname)->result();
 		$this->load->library('pdf');
 		$this->pdf->setPaper('A4', 'potrait');
 		$this->pdf->filename = "transkrip-mahasiswa.pdf";
@@ -208,17 +280,13 @@ class Dashboard extends CI_Controller {
 		$data["bread"] = "Laporan";
 		$data["icon"] = "description";
 
-		$data["laporan"] = $this->skpi_model->laporan_kegiatan('')->result();
+		$data["laporan"] = $this->skpi_model->laporan_kegiatan('nama,jurusan,','
+            JOIN tb_mahasiswa ON tb_transaksi.nim = tb_mahasiswa.nim
+            JOIN tb_jurusan ON tb_mahasiswa.id_jurusan = tb_jurusan.id_jurusan')->result();
 
 		$this->load->view('head', $data);		
 		$this->load->view('laporan_view', $data);
 		$this->load->view('foot');
-	}
-	public function laporan_verifikasi()
-	{
-		$id = $this->input->post("keg_id");
-		$data = array('keg_status' => $this->input->post("keg_status"));
-		$this->db->update('mst_kegiatan', $data, array('keg_id' => $id));
 	}
 
 	// User & privilege management
@@ -280,7 +348,7 @@ class Dashboard extends CI_Controller {
 				'mod_status' => 2,
 				'mod_uid' => $this->uid);
 
-			$this->db->update('mst_user', $data);
+			$this->db->update('tb_user', $data, array('' => ''));
 			redirect(base_url('dashboard/user'),'refresh');			
 		}else{
 			redirect(base_url('error/not_found'),'refresh');
@@ -289,7 +357,7 @@ class Dashboard extends CI_Controller {
 	public function user_delete($id)
 	{
 		if ($this->role==1) {
-			$this->db->delete('mst_user',array('uid' => $id));
+			$this->db->delete('tb_user',array('uid' => $id));
 			redirect(base_url('dashboard/user'),'refresh');
 		}else{
 			redirect(base_url('error/not_found'),'refresh');
