@@ -31,7 +31,7 @@
                                         <th>Bentuk</th>
                                         <th>Level</th>
                                         <th>Kepesertaan</th>
-                                        <th width="8%">Tanggal</th>
+                                        <th width="12%">Tanggal</th>
                                         <th>Keterangan Softskill</th>
                                         <th>Aproval</th>
                                         <th width="1%">Dokumen</th>
@@ -54,7 +54,7 @@
                                     <?php foreach ($kegiatan as $keg){ ?>
                                     <tr>
                                         <td>
-                                          <?= $keg->nama_kg."<br>";
+                                          <?= $keg->nama_kg.'<br>('.$keg->nama_kg_eng.')<br>';
                                             echo anchor(base_url("dashboard/kegiatan_edit/".$keg->id_transaksi), 'Edit','style="color:green"');
                                             echo ' | ';
                                             echo anchor(base_url("dashboard/kegiatan_delete/".$keg->id_transaksi), 'Delete','style="color:red"');?>
@@ -63,11 +63,11 @@
                                         <td><?= $keg->bentuk ?></td>
                                         <td><?= $keg->tingkatan ?></td>
                                         <td><?= $keg->peranan ?></td>
-                                        <td>
+                                        <td style="text-align: center">
                                           <?php if (strtotime($keg->tgl_mulai) != 0) {
                                               echo date_format(date_create($keg->tgl_mulai),"j F Y");
                                           } if (strtotime($keg->tgl_selesai) != 0) {
-                                              echo ' - '.date_format(date_create($keg->tgl_selesai),"j F Y");
+                                              echo '<br>s/d<br>'.date_format(date_create($keg->tgl_selesai),"j F Y");
                                           } ?>
                                         </td>
                                         <td></td>

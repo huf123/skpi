@@ -242,12 +242,9 @@ class Dashboard extends CI_Controller {
 	}
 	public function kegiatan_approve()
 	{
-		$where = array();
 		$id_transaksi = $this->input->post('id_transaksi');
-		var_dump($_POST);die();
-		array_push($where, $id_transaksi);
-		$this->db->update('tb_transaksi', 'approval = 1');
-		$this->db->where_in('id_transaksi', $where);
+		$this->db->where_in('id_transaksi', $id_transaksi);
+		$this->db->update('tb_transaksi', array('approval' => 1));
 		redirect(base_url('dashboard/kegiatan'),'refresh');
 	}
 
@@ -276,13 +273,15 @@ class Dashboard extends CI_Controller {
 	// Halaman Laporan
 	public function laporan()
 	{
-		$data["title"] = "Laporan";
-		$data["bread"] = "Laporan";
+		$data["title"] = "Laporan Kegiatan Mahasiswa";
+		$data["bread"] = "Laporan Kegiatan Mahasiswa";
 		$data["icon"] = "description";
 
 		$data["laporan"] = $this->skpi_model->laporan_kegiatan('nama,jurusan,','
             JOIN tb_mahasiswa ON tb_transaksi.nim = tb_mahasiswa.nim
-            JOIN tb_jurusan ON tb_mahasiswa.id_jurusan = tb_jurusan.id_jurusan')->result();
+            JOIN tb_jurusan ON tb_mahasiswa.id_jurusan = tb_jurusan.id_jurusan
+            WHERE tb_mahasiswa.id_fak = '.$this->session->userdata('id_fak').'
+            GROUP BY tb_mahasiswa.id_fak')->result();
 
 		$this->load->view('head', $data);		
 		$this->load->view('laporan_view', $data);

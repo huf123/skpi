@@ -8,18 +8,19 @@
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="header bg-blue">
+                    <?php echo form_open(base_url('dashboard/kegiatan_approve')); ?>
+                    <div class="header bg-blue" style="padding-top: 15px;padding-bottom: 15px">
                         <h2>
                             <?= $title ?> &nbsp;
-                            <a href="<?php echo base_url() ?>dashboard/kegiatan_approve" class="btn btn-success waves-effect waves-float" style="font-weight: bold">
-                                <i class="material-icons">done</i>
-                                <span>APPROVE</span>
-                            </a>
+                            <button type="submit" class="btn btn-success m-t-15 waves-effect" style="margin-top: 0">
+                                <i class="material-icons" style="font-weight:bold">done</i>
+                                <span style="font-weight:bold">APPROVE</span>                                
+                            </button>
                         </h2>
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table style="width:100%" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                            <table style="width:100%" class="table table-bordered table-striped table-hover js-basic-print dataTable">
                                 <thead>
                                     <tr>
                                         <th width="1%">
@@ -65,9 +66,9 @@
                                             <label for="<?php echo 'check_'.$id_transaksi ?>"></label>
                                         </td>
                                         <td><?= $lapor->nim ?></td>
-                                        <td><?= $lapor->nama ?></td>
+                                        <td><?= $lapor->nama?></td>
                                         <td><?= $lapor->jurusan ?></td>
-                                        <td><?= $lapor->nama_kg ?></td>
+                                        <td><?= $lapor->nama_kg.'<br>('.$lapor->nama_kg_eng.')' ?></td>
                                         <td></td>
                                         <td>
                                             <center>
@@ -76,7 +77,7 @@
                                             <?php }
                                                 else { ?>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect waves-float"
-                                                style="padding: 0 5px">
+                                                style="padding: 0 5px" data-value="<?php echo $id_transaksi ?>" id="btn_approve">
                                                     <i class="material-icons" style="font-weight:bold">done</i>
                                                 </button>
                                             <?php } ?>                                                
@@ -92,6 +93,7 @@
                             </table>
                         </div>
                     </div>
+                    <?php echo form_close(); ?>
                 </div>
             </div>
         </div>

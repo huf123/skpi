@@ -20,10 +20,13 @@ class Auth extends CI_Controller {
 	public function logging()
 	{
 		// set_cookie
-		$data = array(
-			"username" => $this->input->post('uname'),
-			"password" => $this->input->post('upwd'));
-		$row = $this->db->get_where('tb_user',$data,1)->row();
+		$row = $this->db->query("
+			SELECT tb_user.id_fak as id_fak,username,id_level,fakultas
+			FROM tb_user
+			JOIN tb_fakultas on tb_user.id_fak = tb_fakultas.id_fak
+			WHERE username = '".$this->input->post('uname')."'
+				AND password = '".$this->input->post('upwd')."'
+			LIMIT 1")->row();
 
 		if($row){
 			if ($this->input->post('remember')) {
@@ -44,6 +47,7 @@ class Auth extends CI_Controller {
 				}
 			}
 			// $this->session->set_userdata('uid',$row->uid);
+			$this->session->set_userdata('id_fak',$row->id_fak);
 			$this->session->set_userdata('uname',$row->username);
 			$this->session->set_userdata('role',$row->id_level);
 

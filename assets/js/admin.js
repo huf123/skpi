@@ -608,4 +608,30 @@ $(document).ready(function() {
     		$(this).parents('table').find('input[type="checkbox"]').removeAttr('checked');
     	}
     })
+
+    // approve kegiatan
+    $('tbody').on('click', '#btn_approve', function(){
+    	var id_bentuk = $(this).data("value");
+    	var ini = $(this);
+    	// console.log(id_bentuk);
+    	$.ajax({
+    		type : "post",
+			url:base_url+"/skpi/dashboard/kegiatan_approve",
+			data:{id_bentuk:id_bentuk}
+    	})
+    	.done(function(){
+    		ini.parent().append('<p style="color:green">Disetujui</p>');
+    		ini.remove();
+    	})
+    })
+
+    // init datatables
+    $('.js-basic-example').DataTable({
+        responsive: true
+    });
+    $('.js-basic-print').DataTable({
+    	dom: 'Bfrtip',
+        responsive: true,
+        buttons: ['pdf', 'print']
+    });
 });
