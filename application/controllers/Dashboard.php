@@ -252,6 +252,10 @@ class Dashboard extends CI_Controller {
 		$this->db->update('tb_transaksi',
 			array('locked' => 1),
 			array('nim' => $this->uname,'approval' => 1));
+		$data = array(
+			'nim' => $this->uname,
+			'keg_transkrip' => '');
+		$this->db->insert('tb_transkrip', $data);
 		redirect(base_url('dashboard/kegiatan'),'refresh');
 	}
 

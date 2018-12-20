@@ -15,7 +15,7 @@
                                 <i class="material-icons" style="color: #000!important">add</i>
                                 <span>TAMBAH KEGIATAN</span>
                             </a>
-                            <a href="<?php echo base_url() ?>dashboard/kegiatan/add" class="btn btn-success waves-effect waves-float" style="font-weight: bold;float: right">
+                            <a href="<?php echo base_url() ?>dashboard/kegiatan_lock" class="btn btn-success waves-effect waves-float" style="font-weight: bold;float: right">
                                 <i class="material-icons">lock</i>
                                 <span>KUNCI KEGIATAN</span>
                             </a>

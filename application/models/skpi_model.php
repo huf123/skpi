@@ -20,9 +20,9 @@ class Skpi_model extends CI_Model {
 	public function laporan_kegiatan($select,$other)
 	{
 		return $this->db->query("
-			SELECT id_transaksi,tb_transaksi.nim as nim,nama_kg,tgl_mulai,tgl_selesai,sertifikat,info,
-				".$select." nama_kg_eng,
-				bentuk,peranan,approval,(tb_bentuk_peranan.bobot*tb_tingkatan.bobot) as bobot,tingkatan
+			SELECT id_transaksi,tb_transaksi.nim as nim,nama_kg,tgl_mulai,tgl_selesai,info,
+				".$select." nama_kg_eng,locked,bentuk,peranan,tingkatan,approval,sertifikat,
+				(tb_bentuk_peranan.bobot*tb_tingkatan.bobot) as bobot
 			FROM tb_transaksi
 			JOIN tb_bidang ON tb_transaksi.id_bidang = tb_bidang.id_bidang
 			JOIN tb_tingkatan ON tb_transaksi.id_tingkatan = tb_tingkatan.id_tingkatan
