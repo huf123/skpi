@@ -373,6 +373,12 @@ class Dashboard extends CI_Controller {
 			redirect(base_url('error/not_found'),'refresh');
 		}
 	}
+
+	// testing purpose
+	public function test()
+	{
+		$this->load->view('transkrip_template');
+	}
 }
 
 /* End of file Dashboard.php */
