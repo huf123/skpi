@@ -273,10 +273,11 @@ class Dashboard extends CI_Controller {
 
 	public function generate()
 	{
+		// $data['identitas'] = $this->skpi_model->identitas();
 		$data['kegiatan'] = $this->skpi_model->laporan_kegiatan('','WHERE nim = '.$this->uname)->result();
 
 		$this->load->library('pdf');
-		$this->pdf->setPaper('A4', 'potrait');
+		$this->pdf->setPaper('F4', 'potrait');
 		$this->pdf->filename = "transkrip-mahasiswa.pdf";
 		$this->pdf->load_view('transkrip_template', $data);
 	}

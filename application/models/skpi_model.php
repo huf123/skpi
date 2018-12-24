@@ -11,6 +11,10 @@ class Skpi_model extends CI_Model {
 			FROM tb_mahasiswa 
 			JOIN tb_jurusan ON tb_jurusan.id_jurusan = tb_mahasiswa.id_jurusan ".$other);
 	}
+	public function identitas()
+	{
+		// return $this->db->query("SELECT nim,nama,kota_lahir,tgl_lahir,jurusan,")->row();
+	}
 	public function user($other)
 	{
 		return $this->db->query("
