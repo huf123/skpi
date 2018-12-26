@@ -25,10 +25,11 @@
                                     <i class="material-icons">picture_as_pdf</i>
                                     <span>Download PDF</span>
                                 </a>
-                                <button type="button" class="btn btn-primary waves-effect waves-float" style="font-weight: bold">
+                                <button type="button" class="btn btn-primary waves-effect waves-float" style="font-weight: bold" onclick="frames['frame'].print()">
                                     <i class="material-icons">print</i>
-                                    <span>Cetak Transkrip</span>                                
+                                    <span>Cetak Transkrip</span>
                                 </button>
+                                <iframe src="<?php echo base_url()?>dashboard/transkrip_print" style="display:none" name="frame"></iframe>
                             </center>
                         </div>
                     </div>

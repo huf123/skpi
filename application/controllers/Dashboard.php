@@ -271,9 +271,14 @@ class Dashboard extends CI_Controller {
 		$this->load->view('foot');
 	}
 
+	public function transkrip_print()
+	{
+		$data['kegiatan'] = $this->skpi_model->laporan_kegiatan('','WHERE nim = '.$this->uname)->result();
+		$this->load->view('transkrip_template', $data);
+	}
+
 	public function generate()
 	{
-		// $data['identitas'] = $this->skpi_model->identitas();
 		$data['kegiatan'] = $this->skpi_model->laporan_kegiatan('','WHERE nim = '.$this->uname)->result();
 
 		$this->load->library('pdf');
