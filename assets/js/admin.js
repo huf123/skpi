@@ -478,15 +478,6 @@ $(document).ready(function() {
 		})
 	});
 
-	// Exportable table
-    $('.js-exportable').DataTable({
-        dom: 'Bfrtip',
-        responsive: true,
-        buttons: [
-            'excel', 'pdf', 'print'
-        ]
-    });
-
     // date picker
     $('#bs_datepicker_range_container').datepicker({
         autoclose: true,
@@ -591,6 +582,11 @@ $(document).ready(function() {
     	}
     })
 
+    // show Bentuk_kegiatan from specific Bidang_kegiatan (on Edit)
+    // $('.bidang').on("change",function(){
+    	
+    // })
+
     // remove file from server and append file input
     // $('#remove_sertifikat').on("click",function(){
     // 	$(this).parent().append(
@@ -634,4 +630,13 @@ $(document).ready(function() {
         responsive: true,
         buttons: ['pdf', 'print']
     });
+
+	// Exportable table
+    // $('.js-exportable').DataTable({
+    //     dom: 'Bfrtip',
+    //     responsive: true,
+    //     buttons: [
+    //         'excel', 'pdf', 'print'
+    //     ]
+    // });
 });

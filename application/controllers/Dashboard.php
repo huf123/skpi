@@ -148,8 +148,6 @@ class Dashboard extends CI_Controller {
 				'nama_kg_eng' => $this->input->post('keg_name_eng'),
 				// file lampiran sertifikat kegiatan
 				'sertifikat' => $this->upload->data('file_name'),
-				// deskripsi kegiatan
-				// 'keg_desc' => $this->input->post('keg_desc'),
 				// bidang kegiatan
 				'id_bidang' => $this->input->post('keg_bidang'),
 				// bentuk kegiatan
@@ -191,6 +189,8 @@ class Dashboard extends CI_Controller {
 		$data["tingkatan"] = $this->db->get('tb_tingkatan')->result();
 		$data["kegiatan"] = $this->skpi_model->laporan_kegiatan('tb_transaksi.id_bidang as id_bidang,tb_transaksi.id_bentuk as id_bentuk,tb_transaksi.id_tingkatan as id_tingkatan,tb_transaksi.id_peranan as id_peranan,',
 			'WHERE nim = '.$this->uname.' AND id_transaksi = '.$id.' LIMIT 1')->row();
+		$data["bentuk"] = $this->skpi_model->keg_bentuk($data["kegiatan"]->id_bidang);
+		$data["peran"] = $this->skpi_model->keg_peran($data["kegiatan"]->id_bentuk);
 		$data['url'] = 'dashboard/kegiatan_update';
 
 		$this->load->view('head', $data);

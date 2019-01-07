@@ -45,18 +45,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="row clearfix">
-                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="keg_desc">Deskripsi kegiatan</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <textarea name="keg_desc" class="form-control" id="keg_desc" placeholder="Masukkan deskripsi kegiatan" required></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
                                         <label for="keg_bidang">Bidang kegiatan</label>
@@ -69,8 +57,8 @@
                                                 <option value="<?php echo $idbidang ?>"
                                                     <?php if (isset($kegiatan)){
                                                         $id_bidang = $kegiatan->id_bidang;
-                                                        if ($id_bidang == $idbidang) {
-                                                            echo " checked";
+                                                        if ($kegiatan->id_bidang == $bid->id_bidang) {
+                                                            echo " selected";
                                                         }
                                                     }?>><?php echo $bid->info ?></option>
                                                 <?php } ?>
@@ -116,7 +104,7 @@
                                                     <?php if (isset($kegiatan)){
                                                         $id_tingkatan = $kegiatan->id_tingkatan;
                                                         if ($id_tingkatan == $idtingkatan) {
-                                                            echo "checked";
+                                                            echo "selected";
                                                         }
                                                     }?>><?php echo $ting->tingkatan ?></option>
                                                 <?php } ?>
