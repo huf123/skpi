@@ -478,24 +478,17 @@ $(document).ready(function() {
 		})
 	});
 
-	// Exportable table
-    $('.js-exportable').DataTable({
-        dom: 'Bfrtip',
-        responsive: true,
-        buttons: [
-            'excel', 'pdf', 'print'
-        ]
-    });
-
     // date picker
     $('#bs_datepicker_range_container').datepicker({
         autoclose: true,
         format: "dd MM yyyy",
+        endDate: '-1d',
         container: '#bs_datepicker_range_container'
     });
     $('#bs_datepicker_component_container').datepicker({
         autoclose: true,
         format: "dd MM yyyy",
+        endDate: '-1d',
         container: '#bs_datepicker_component_container'
     });
     
@@ -547,8 +540,12 @@ $(document).ready(function() {
 				data:{id_bidang:id_bidang}
 	    	})
 	    	.done(function(data){
+	    		$('.bentuk').find('li').not('[data-original-index="0"]').remove();
+	    		$('#keg_bentuk').find('option').not('#select_none').remove();
+
 	    		var x = 1;
 	    		$.each(data,function(key,value){
+	    			$('#keg_bentuk').append('<option value="'+value['id_bentuk']+'">'+value['bentuk']+'</option>');
 	    			$('.bentuk').find('ul').append(
 	    				'<li data-original-index="'+x+'">'+
 							'<a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false">'+
@@ -556,7 +553,6 @@ $(document).ready(function() {
 								'<span class="glyphicon glyphicon-ok check-mark"></span>'+
 							'</a>'+
 						'</li>');
-	    			$('#keg_bentuk').append('<option value="'+value['id_bentuk']+'">'+value['bentuk']+'</option>');
 	    			x++;
 	    		});
 	    	})
@@ -574,9 +570,11 @@ $(document).ready(function() {
 				data:{id_bentuk:id_bentuk}
 	    	})
 	    	.done(function(data){
+	    		$('.peran').find('li').not('[data-original-index="0"]').remove();
+	    		$('#keg_peran').find('option').not('#select_none').remove();
+
 	    		var x = 1;
 	    		$.each(data,function(key,value){
-	    			console.log(value);
 	    			$('.peran').find('ul').append(
 	    				'<li data-original-index="'+x+'">'+
 							'<a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false">'+
@@ -592,10 +590,25 @@ $(document).ready(function() {
     })
 
     // remove file from server and append file input
-    // $('#remove_sertifikat').on("click",function(){
-    // 	$(this).parent().append(
-    // 		'');
-    // })
+    $('#remove_sertifikat').on("click",function(){
+    	var ini = $(this).parent();
+    	var file_path = $('#file_path').val();
+
+    	$.ajax({
+	    	type : "post",
+			url:base_url+"/skpi/dashboard/file_remove",
+			dataType:'json',
+			data:{file_path:file_path}
+	    })
+	    .done(function(data){
+	    	console.log(data);
+	    	ini.empty();
+	    	ini.append('<input type="file" name ="keg_file" class="form-control" required>');
+	    })
+	    .fail(function(data){
+	    	console.log(data);
+	    })
+    })
 
     // check all
     $('#check_all').on("change", function(){
@@ -613,7 +626,6 @@ $(document).ready(function() {
     $('tbody').on('click', '#btn_approve', function(){
     	var id_bentuk = $(this).data("value");
     	var ini = $(this);
-    	// console.log(id_bentuk);
     	$.ajax({
     		type : "post",
 			url:base_url+"/skpi/dashboard/kegiatan_approve",

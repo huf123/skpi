@@ -45,18 +45,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="row clearfix">
-                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="keg_desc">Deskripsi kegiatan</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <textarea name="keg_desc" class="form-control" id="keg_desc" placeholder="Masukkan deskripsi kegiatan" required></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
                                         <label for="keg_bidang">Bidang kegiatan</label>
@@ -70,7 +58,7 @@
                                                     <?php if (isset($kegiatan)){
                                                         $id_bidang = $kegiatan->id_bidang;
                                                         if ($id_bidang == $idbidang) {
-                                                            echo " checked";
+                                                            echo " selected";
                                                         }
                                                     }?>><?php echo $bid->info ?></option>
                                                 <?php } ?>
@@ -85,7 +73,17 @@
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <select class="form-control show-tick bentuk" name="keg_bentuk" id="keg_bentuk" required>
-                                                <option value="">-- Pilih bentuk kegiatan --</option>
+                                                <option value="" id="select_none">-- Pilih bentuk kegiatan --</option>
+                                                <?php if (isset($bentuk)){ 
+                                                    foreach ($bentuk as $bentuk) { 
+                                                        $idbentuk = $bentuk->id_bentuk;
+                                                        $id_bentuk = $kegiatan->id_bentuk;
+                                                        if ($id_bentuk == $idbentuk) $select = " selected"; else $select = "";?>
+                                                <option value="<?php echo $idbentuk ?>" <?php echo $select ?>>
+                                                    <?php echo $bentuk->bentuk ?>
+                                                </option>
+                                                <?php }
+                                                } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -97,7 +95,17 @@
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <select class="form-control show-tick peran" name="keg_peran" id="keg_peran" required>
-                                                <option value="">-- Pilih jenis Peranan --</option>
+                                                <option value="" id="select_none">-- Pilih jenis Peranan --</option>
+                                                <?php if (isset($peran)){ 
+                                                    foreach ($peran as $peran) { 
+                                                        $idperan = $peran->id_peranan;
+                                                        $id_peran = $kegiatan->id_peranan;
+                                                        if ($id_peran == $idperan) $select = " selected"; else $select = "";?>
+                                                <option value="<?php echo $idperan ?>" <?php echo $select ?>>
+                                                    <?php echo $peran->peranan ?>
+                                                </option>
+                                                <?php }
+                                                } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -109,14 +117,14 @@
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <select class="form-control show-tick" name="keg_tingkat" id="keg_tingkat" required>
-                                                <option value="">-- Pilih tingkatan kegiatan --</option>
+                                                <option value="" id="select_none">-- Pilih tingkatan kegiatan --</option>
                                                 <?php foreach ($tingkatan as $ting){ 
                                                     $idtingkatan = $ting->id_tingkatan;?>
                                                 <option value="<?php echo $idtingkatan ?>"
                                                     <?php if (isset($kegiatan)){
                                                         $id_tingkatan = $kegiatan->id_tingkatan;
                                                         if ($id_tingkatan == $idtingkatan) {
-                                                            echo "checked";
+                                                            echo "selected";
                                                         }
                                                     }?>><?php echo $ting->tingkatan ?></option>
                                                 <?php } ?>
@@ -139,6 +147,11 @@
                                                             $checked = 'checked';
                                                             $keg_finish = '';
                                                             $value = $kegiatan->tgl_selesai;
+                                                        }
+                                                        else {
+                                                            $checked = '';
+                                                            $keg_finish = 'style="display: none"';
+                                                            $value = '';
                                                         }
                                                     } else {
                                                         $checked = '';
@@ -165,8 +178,9 @@
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group" style="margin-top: 5px">
                                             <?php if (isset($kegiatan)){
-                                                echo anchor("assets/files/".$kegiatan->sertifikat,'Tampilkan Sertifikat','style="color:green"');
+                                                echo anchor("./assets/files/".$kegiatan->sertifikat,'Tampilkan Sertifikat','id="show_sertifikat" style="color:green"');
                                                 echo " | ";
+                                                echo '<input type="hidden" id="file_path" value="'.$kegiatan->sertifikat.'">';
                                                 echo '<a href="javascript:void(0);" id="remove_sertifikat" style="color:red">Hapus</a>';
                                             } else echo '<input type="file" name ="keg_file" class="form-control" required>'?>                                            
                                         </div>

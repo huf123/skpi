@@ -191,6 +191,8 @@ class Dashboard extends CI_Controller {
 		$data["tingkatan"] = $this->db->get('tb_tingkatan')->result();
 		$data["kegiatan"] = $this->skpi_model->laporan_kegiatan('tb_transaksi.id_bidang as id_bidang,tb_transaksi.id_bentuk as id_bentuk,tb_transaksi.id_tingkatan as id_tingkatan,tb_transaksi.id_peranan as id_peranan,',
 			'WHERE nim = '.$this->uname.' AND id_transaksi = '.$id.' LIMIT 1')->row();
+		$data["bentuk"] = $this->skpi_model->keg_bentuk($data["kegiatan"]->id_bidang);
+		$data["peran"] = $this->skpi_model->keg_peran($data["kegiatan"]->id_bentuk);
 		$data['url'] = 'dashboard/kegiatan_update';
 
 		$this->load->view('head', $data);
@@ -321,6 +323,20 @@ class Dashboard extends CI_Controller {
 		}else{
 			redirect(base_url('error/not_found'),'refresh');
 		}
+	}
+	public function file_remove()
+	{
+		$file = $this->input->post('file_path');
+		$file_path = './assets/files/'.$file;
+
+		if (!unlink($file_path)) {
+			echo json_encode("error");
+		}
+		else{
+			echo json_encode($id);
+		}
+
+		$this->db->update('tb_transaksi', 'sertifikat = ""','sertifikat = "$file"');
 	}
 	public function user_save()
 	{
