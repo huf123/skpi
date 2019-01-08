@@ -148,6 +148,8 @@ class Dashboard extends CI_Controller {
 				'nama_kg_eng' => $this->input->post('keg_name_eng'),
 				// file lampiran sertifikat kegiatan
 				'sertifikat' => $this->upload->data('file_name'),
+				// deskripsi kegiatan
+				// 'keg_desc' => $this->input->post('keg_desc'),
 				// bidang kegiatan
 				'id_bidang' => $this->input->post('keg_bidang'),
 				// bentuk kegiatan
@@ -321,6 +323,20 @@ class Dashboard extends CI_Controller {
 		}else{
 			redirect(base_url('error/not_found'),'refresh');
 		}
+	}
+	public function file_remove()
+	{
+		$file = $this->input->post('file_path');
+		$file_path = './assets/files/'.$file;
+
+		if (!unlink($file_path)) {
+			echo json_encode("error");
+		}
+		else{
+			echo json_encode($id);
+		}
+
+		$this->db->update('tb_transaksi', 'sertifikat = ""','sertifikat = "$file"');
 	}
 	public function user_save()
 	{
