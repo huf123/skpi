@@ -25,28 +25,6 @@ class Dashboard extends CI_Controller {
 		$this->load->view('foot');
 	}
 
-	public function update_softskill()
-	{											
-
-		$where = array(
-			'id_bentuk' => 'B01',
-			'id_peranan' => 'PR13');
-		$data = array(
-			'softskill1' => 0.049,
-			'softskill2' => 0.121,
-			'softskill3' => 0.08,
-			'softskill4' => 0.065,
-			'softskill5' => 0.105,
-			'softskill6' => 0.075,
-			'softskill7' => 0.079,
-			'softskill8' => 0.096,
-			'softskill9' => 0.068,
-			'softskill10' => 0.078,
-			'softskill11' => 0.08,
-			'softskill12' => 0.103);
-		$this->db->update('tb_bentuk_peranan', $data,$where);
-	}
-
 	// Halaman Profil
 	public function profil() 
 	{
