@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title><?php echo $title ?> | SKPI</title>
+    <title><?php echo $title ?> | ESKAPEI</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
@@ -33,8 +33,18 @@
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<?php echo base_url() ?>assets/css/theme-blue.min.css" rel="stylesheet"/>
 
+    <!-- fontAwesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    
     <!-- JQuery Core js -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style type="text/css">
+        div.softcase{padding:15px!important}
+        ul.soft{list-style-type:none;padding:5px;margin:0!important}
+        ul.soft li span {vertical-align: text-bottom}
+        .softbig{width:8.33333333%;text-align: center;float:left}
+        ol.aspect{padding-left: 20px!important}
+    </style>
 
 </head>
 
@@ -62,7 +72,7 @@
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="<?php echo base_url() ?>dashboard">SKPI</a>
+                <a class="navbar-brand" href="<?php echo base_url() ?>dashboard">ESKAPEI</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right" style="margin-top: 5px;color: white;font-weight: bold">
@@ -136,7 +146,7 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2017 - 2018 <a href="javascript:void(0);">SKPI</a>.
+                    &copy; 2017 - 2018 <a href="javascript:void(0);">ESKAPEI</a>.
                 </div>
             </div>
             <!-- #Footer -->

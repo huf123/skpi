@@ -20,7 +20,7 @@
     	.m-1{margin: 1px 0 1px}
     	table .tb {margin: 10px 0;border-collapse: collapse;width: 100%}
 		.tb td, th {border: 3px double #000;text-align: left;padding: 2px}
-		h1,h2,h3,h4,h5,h6{margin-top: 2px;margin-bottom: 2px}
+		h1,h2,h3,h5,h4,h6{margin-top: 2px;margin-bottom: 2px}
 		.title{margin: 10px 0}
     </style>
 </head>
@@ -31,12 +31,12 @@
 				<img src="http://localhost/skpi/assets/images/logo-lg.png" height="70px" style='margin-top:5px'>
 			</td>
 			<td align="center" width="80%">
-				<h4>
+				<h5>
 					KEMENTERIAN RISET, TEKNOLOGI, DAN PENDIDIKAN TINGGI<br>
 					UNIVERSITAS JEMBER <br>
 					<!-- dynamic jurusan nanti -->
-					<span>Program Studi Sistem Informasi</span>
-				</h4>
+					<span>Program Studi <?= $mahasiswa->jurusan ?></span>
+				</h5>
 				<p style="margin-bottom: 0;font-size: 15px">
 					Jalan Kalimantan 37 Kampus Bumi Tegal Boto Jember 68121, Jawa Timur, Indonesia
 				</p>
@@ -51,7 +51,7 @@
 				<h5 class="m-5">SURAT KETERANGAN PENDAMPING IJAZAH</h5>
 				<p style="margin-bottom: 0;font-size: 18px">
 					<span style="font-style:italic">Diploma Supplement</span><br>
-					<span>Nomor: xxx/SI/SKPI/2017</span>
+					<span>Nomor: xxx/SI/SKPI/<?= date('Y') ?></span>
 				</p>
 				<hr class="batas">
 			</td>
@@ -62,7 +62,7 @@
 					Surat Keterangan Pendamping Ijazah (SKPI) merupakan dokumen yang menyatakan kemampuan kerja, penguasaan pengetahuan, dan sikap/moral pemegangnya. SKPI disiapkan oleh Universitas Jember sesuai dengan Kerangka Kualifikasi Nasional Indonesia (KKNI) dan Konvensi UNESCO tentang pengakuan studi, ijazah, gelar pendidikan tinggi.
 				</p>
 				<p style="font-style: italic;">
-					A Diploma Supplement (DS) is a document that provides the information of work ability, master of knowledge and attitudes/morale of the holder. DS is prepared by the University of Jember based on the Indonesia Qualifications Framework (IQF) and the UNESCO Convention on the recognition of studies, diplomas and degrees of higher education.					
+					A Diploma Supplement (DS) is a document that provides the information of work ability, master of knowledge and attitudes/morale of the holder. DS is prepared by the University of Jember based on the Indonesia Qualifications Framework (IQF) and the UNESCO Convention on the recognition of studies, diplomas and degrees of higher education.
 				</p>
 			</td>
 		</tr>
@@ -79,34 +79,36 @@
 				<h6>
 					NAMA LENGKAP<br>
 					<span class="sub">Full Name</span>
-					<p class="bg-olive full m-1">SINTA EKA FRITRIYANTI</p>
+					<p class="bg-olive full m-1"><?= $mahasiswa->nama ?></p>
 				</h6>
 				<h6>
 					TEMPAT, TANGGAL LAHIR<br>
 					<span class="sub">Place and Date of Birth</span>
-					<p class="bg-olive full m-1">PASURUAN, 26 FEBRUARI 1995</p>
+					<p class="bg-olive full m-1">
+						<?= $mahasiswa->kota_lahir.','.$mahasiswa->tgl_lahir ?>
+					</p>
 				</h6>
 				<h6>
 					NIM<br>
 					<span class="sub">Student Identification Number</span>
-					<p class="bg-olive full m-1">102410101054</p>
+					<p class="bg-olive full m-1"><?= $mahasiswa->nim ?></p>
 				</h6>
 			</td>
 			<td align="justify" width="50%" class="content">
 				<h6>
 					TAHUN LULUS<br>
 					<span class="sub">Year of Completion</span>
-					<p class="bg-olive m-1">2017</p>
+					<p class="bg-olive m-1"><?= date('Y') ?></p>
 				</h6>
 				<h6>
 					NOMOR IJAZAH<br>
 					<span class="sub">Diploma Reference Number</span>
-					<p class="bg-olive m-1">267/SI/S1/2017</p>
+					<p class="bg-olive m-1">xxxx/SI/S1/<?= date('Y') ?></p>
 				</h6>
 				<h6>
 					GELAR<br>
 					<span class="sub">Name of Qualification</span>
-					<p class="bg-olive m-1">SARJANA KOMPUTER (S.KOM)</p>
+					<p class="bg-olive m-1"><?= strtoupper($mahasiswa->gelar_lengkap.' ('.$mahasiswa->gelar_singkat.')') ?></p>
 				</h6>
 			</td>
 		</tr>
@@ -135,12 +137,12 @@
 				<h6>
 					FAKULTAS<br>
 					<span class="sub">Faculty</span>
-					<p>PROGRAM STUDI SISTEM INFORMASI</p>
+					<p><?= strtoupper($mahasiswa->fakultas) ?></p>
 				</h6>
 				<h6>
 					PROGRAM STUDI DAN AKREDITASI<br>
 					<span class="sub">Major and Accreditation</span>
-					<p>SARJANA KOMPUTER (S.KOM)</p>
+					<p><?= strtoupper($mahasiswa->jurusan) ?> DAN B</p>
 				</h6>
 				<h6>
 					JENIS DAN JENJANG PENDIDIKAN<br>
@@ -237,6 +239,174 @@
 				<p>TRANSFERABLE SKILL</p>
 				<p>
 					The graduate possesses transferable skills related to his/her field of study as demonstrated by: the ability to perform accurate decision making based on the results of information and data analysis by considering the environmental and business approaches; and by the ability to communicate and prioritizing social hospitality; capabilities to contribute personally and to contribute to the organization transparently, ethically, adaptively as reliable cooperator; capabilities to apply knowledge and to use expertise adapted to the environment and the business as a form of self-development at work and in the society.  
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td align="justify" width="50%" class="content">
+					<?php foreach ($kegiatan as $keg) {
+						$bidang = explode(',', $keg->bidang);
+						$bidang_in = $bidang[0];
+						$bidang_en = $bidang[1];
+						$kegia = explode(';', $keg->kegiatan);
+						$kegiatan_in = array();$kegiatan_en = array();
+						foreach ($kegia as $kegi) {
+							$k = explode(',', $kegi);
+							array_push($kegiatan_in, $k[0]);
+							array_push($kegiatan_en, $k[1]);
+						}
+					} ?>
+				<p>KETERAMPILAN KHUSUS</p>
+				<p>
+					Lulusan diharapkan memiliki keterampilan khusus guna menyalurkan potensinya dalam dunia kerja. hal tersebut didapatkan dari mengikuti kegiatan kemahasiswaan yang berlangsung selama perkuliahan. berikut adalah bukti keikutsertaan kegiatan kemahasiswaan antara lain : 
+				</p>
+				<p>
+					<h5><?php echo $bidang_in ?></h5>
+					<ol class="aspect">
+						<?php foreach ($kegiatan_in as $keg_in): ?>
+						<li><?= $keg_in ?></li>
+						<?php endforeach ?>
+					</ol>
+				</p>
+				<p>
+					Masing-masing kegiatan memiliki skor yang dihitung berdasarkan bentuk kegiatan yang diikuti, tingkat kegiatan, dan tingkat kepesertaan. Tiap kegiatan memiliki 12 aspek softskill yang dipengaruhi oleh bentuk kegiatan dan tingkatkepanitiaan. Berikut adalah perolehan total skor tiap aspek softskill:
+				</p>
+				<p>
+					<table class="tb">
+						<thead>
+							<tr>
+								<th>Keterampilan</th>
+								<th>Total Skor</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Bekerja dalam tim</td>
+								<td><?= round($softskill->softskill1,2) ?></td>
+							</tr>
+							<tr>
+								<td>Komunikasi efektif</td>
+								<td><?= round($softskill->softskill2,2) ?></td>
+							</tr>
+							<tr>
+								<td>Manajemen diri dan waktu</td>
+								<td><?= round($softskill->softskill3,2) ?></td>
+							</tr>
+							<tr>
+								<td>Tangguh</td>
+								<td><?= round($softskill->softskill4,2) ?></td>
+							</tr>
+							<tr>
+								<td>Berpikir kritis dan analitis</td>
+								<td><?= round($softskill->softskill5,2) ?></td>
+							</tr>
+							<tr>
+								<td>Fleksibel</td>
+								<td><?= round($softskill->softskill6,2) ?></td>
+							</tr>
+							<tr>
+								<td>Integritas</td>
+								<td><?= round($softskill->softskill7,2) ?></td>
+							</tr>
+							<tr>
+								<td>Kreatif</td>
+								<td><?= round($softskill->softskill8,2) ?></td>
+							</tr>
+							<tr>
+								<td>Mandiri</td>
+								<td><?= round($softskill->softskill9,2) ?></td>
+							</tr>
+							<tr>
+								<td>Dapat Diandalkan</td>
+								<td><?= round($softskill->softskill10,2) ?></td>
+							</tr>
+							<tr>
+								<td>Produktif</td>
+								<td><?= round($softskill->softskill11,2) ?></td>
+							</tr>
+							<tr>
+								<td>Motivasi</td>
+								<td><?= round($softskill->softskill12,2) ?></td>
+							</tr>
+						</tbody>
+					</table>
+				</p>
+			</td>
+			<td align="justify" width="50%" class="content sub">
+				<p>SPECIAL COMPETENCIES</p>
+				<p>
+					Graduates are expected to have specialized skills in order to deliver their potential in the workplace. this is obtained from participating in student activities that take place during the study period. These are proof of the participation in student activities:
+				</p>
+				<p>
+					<h5><?php echo $bidang_en ?></h5>
+					<ol class="aspect">
+						<?php foreach ($kegiatan_en as $keg_en): ?>
+						<li><?= $keg_en ?></li>
+						<?php endforeach ?>
+					</ol>
+				</p>
+				<p>
+					Each activity has a score that is calculated based on the form of activities that are followed, the level of activity, and the level of participation. Each activity has 12 aspects of soft skills that are influenced by the form of activities and level of committee. Next is the total score of each aspect of soft skill:
+				</p>			
+				<p>
+					<table class="tb">
+						<thead>
+							<tr>
+								<th>Competencies</th>
+								<th>Total Score</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Teamwork</td>
+								<td><?= round($softskill->softskill1,2) ?></td>
+							</tr>
+							<tr>
+								<td>Effective communication</td>
+								<td><?= round($softskill->softskill2,2) ?></td>
+							</tr>
+							<tr>
+								<td>Self and time management</td>
+								<td><?= round($softskill->softskill3,2) ?></td>
+							</tr>
+							<tr>
+								<td>Solid</td>
+								<td><?= round($softskill->softskill4,2) ?></td>
+							</tr>
+							<tr>
+								<td>Critical and analytical thinking</td>
+								<td><?= round($softskill->softskill5,2) ?></td>
+							</tr>
+							<tr>
+								<td>Flexibility</td>
+								<td><?= round($softskill->softskill6,2) ?></td>
+							</tr>
+							<tr>
+								<td>Integrity</td>
+								<td><?= round($softskill->softskill7,2) ?></td>
+							</tr>
+							<tr>
+								<td>Creativity</td>
+								<td><?= round($softskill->softskill8,2) ?></td>
+							</tr>
+							<tr>
+								<td>Independence</td>
+								<td><?= round($softskill->softskill9,2) ?></td>
+							</tr>
+							<tr>
+								<td>Reliability</td>
+								<td><?= round($softskill->softskill10,2) ?></td>
+							</tr>
+							<tr>
+								<td>Productivity</td>
+								<td><?= round($softskill->softskill11,2) ?></td>
+							</tr>
+							<tr>
+								<td>Motivation</td>
+								<td><?= round($softskill->softskill12,2) ?></td>
+							</tr>
+						</tbody>
+					</table>
 				</p>
 			</td>
 		</tr>
@@ -434,13 +604,13 @@
 			<td></td>
 			<td align="right" width="50%" class="content">
 				<p style="margin-bottom: 7em">
-					Jember, 06-10-2017 <br>
-					Ketua Program Studi Sistem Informasi <br>
-					Head of the Study Program of Information Systems
+					Jember, <?= date('d-m-Y') ?> <br>
+					Dekan Fakultas Ilmu Komputer<br>
+					Dean of the Faculty of Computer Science
 				</p>
 				<p>
-					Prof. Drs. Slamin, M.Comp.Sc, Ph.D. <br>
-					NIP. xxxxxxxxxxxxxxxxxx
+					Prof. Drs. Saiful Bukhari, ST., M.Kom. <br>
+					NIP. 19681113 1994121001
 				</p>
 			</td>
 		</tr>

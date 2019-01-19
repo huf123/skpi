@@ -46,7 +46,6 @@ class Dashboard extends CI_Controller {
 		
 		// Tampilan halaman profil (2. mahasiswa)
 		elseif ($role==2) {
-			// $data["profil"] = $this->skpi_model->profil_mhs('WHERE nim = '.$mhs)->row();
 			$data["profil"] = $this->db->get_where('tb_mahasiswa','nim='.$mhs)->row();
 			if (isset($data["profil"])) {
 				$data["url"] = 'dashboard/profil_update';
@@ -91,7 +90,10 @@ class Dashboard extends CI_Controller {
 		$data["title"] = "Kegiatan";
 		$data["bread"] = "Kegiatan";
 		$data["icon"] = "work";
+		$data["softskill"] = $this->skpi_model->softskill($this->uname);
 		$data["kegiatan"] = $this->skpi_model->laporan_kegiatan('','WHERE nim = '.$this->uname)->result();
+		if ($this->db->get_where('tb_transkrip','nim='.$this->uname)->num_rows() == 0)
+			$data["locked"] = 0;else $data["locked"] = 1;
 
 		$this->load->view('head', $data);
 		$this->load->view('kegiatan_mhs', $data);
@@ -166,7 +168,6 @@ class Dashboard extends CI_Controller {
 				// status
 				'approval' => 0,'locked' => 0);
 			$this->db->insert('tb_transaksi', $data);
-			// die();
 			redirect(base_url('dashboard/kegiatan'),'refresh');
 		}
 		else{
@@ -201,7 +202,7 @@ class Dashboard extends CI_Controller {
 	}
 	public function kegiatan_update()
 	{
-		var_dump($_POST); die();
+		$keg_start = date('Y-m-d',strtotime($this->input->post('keg_start')));
 		$keg_finish = $this->input->post('keg_finish');
 		if (strtotime($keg_finish)!=0) {
 			$keg_finish = date('Y-m-d',strtotime($keg_finish));
@@ -214,8 +215,6 @@ class Dashboard extends CI_Controller {
 			'nama_kg' => $this->input->post('keg_name'),
 			// nama kegiatan (english)
 			'nama_kg_eng' => $this->input->post('keg_name_eng'),
-			// deskripsi kegiatan
-			// 'keg_desc' => $this->input->post('keg_desc'),
 			// bidang kegiatan
 			'id_bidang' => $this->input->post('keg_bidang'),
 			// bentuk kegiatan
@@ -225,21 +224,20 @@ class Dashboard extends CI_Controller {
 			// tingkatan kegiatan
 			'id_tingkatan' => $this->input->post('keg_tingkat'),
 			// tanggal start & finish kegiatan
-			'tgl_mulai' => date('Y-m-d',strtotime($this->input->post('keg_start'))),
+			'tgl_mulai' => $keg_start,
 			'tgl_selesai' => $keg_finish);
 
-		if ($this->input->post('keg_file')) {	
-			$config['upload_path'] = FCPATH.'assets/files/';
-			$config['allowed_types'] = 'gif|jpg|png|pdf';
+		$config['upload_path'] = FCPATH.'assets/files/';
+		$config['allowed_types'] = 'gif|jpg|png|pdf';
 
-			$this->load->library('upload',$config);
-			if ($this->upload->do_upload('keg_file')) {			
-				// file lampiran sertifikat kegiatan
-				$data['sertifikat'] = $this->upload->data('file_name');
-			}
+		$this->load->library('upload',$config);
+		if ($this->upload->do_upload('keg_file')) {	
+			// file lampiran sertifikat kegiatan
+			$data['sertifikat'] = $this->upload->data('file_name');
 		}
 
-		$this->db->update('tb_transaksi', $data, array('nim'=>$this->session->userdata('mhs_id')));
+		$id_transaksi = $this->input->post('id_transaksi');
+		$this->db->update('tb_transaksi', $data, 'id_transaksi='.$id_transaksi);
 		redirect(base_url('dashboard/kegiatan'),'refresh');
 	}
 	public function kegiatan_approve()
@@ -268,6 +266,9 @@ class Dashboard extends CI_Controller {
 		$data["bread"] = "Transkrip Mahasiswa";
 		$data["icon"] = "assignment";
 
+		if ($this->db->get_where('tb_transkrip','nim='.$this->uname)->num_rows() == 0)
+			$data["locked"] = 0;else $data["locked"] = 1;
+
 		$this->load->view('head',$data);
 		$this->load->view('transkrip_view',$data);
 		$this->load->view('foot');
@@ -275,13 +276,17 @@ class Dashboard extends CI_Controller {
 
 	public function transkrip_print()
 	{
-		$data['kegiatan'] = $this->skpi_model->laporan_kegiatan('','WHERE nim = '.$this->uname)->result();
+		$data['mahasiswa'] = $this->skpi_model->profil_mhs('WHERE nim = '.$this->uname)->row();
+		$data['softskill'] = $this->skpi_model->softskill($this->uname);
+		$data['kegiatan'] = $this->skpi_model->kegiatan_transkrip($this->uname);
 		$this->load->view('transkrip_template', $data);
 	}
 
 	public function generate()
 	{
-		$data['kegiatan'] = $this->skpi_model->laporan_kegiatan('','WHERE nim = '.$this->uname)->result();
+		$data['mahasiswa'] = $this->skpi_model->profil_mhs('WHERE nim = '.$this->uname)->row();
+		$data['softskill'] = $this->skpi_model->softskill($this->uname);
+		$data['kegiatan'] = $this->skpi_model->kegiatan_transkrip($this->uname);
 
 		$this->load->library('pdf');
 		$this->pdf->setPaper('F4', 'potrait');
@@ -331,12 +336,9 @@ class Dashboard extends CI_Controller {
 
 		if (!unlink($file_path)) {
 			echo json_encode("error");
+		} else {
+			$this->db->update('tb_transaksi',array('sertifikat'=>''),'sertifikat ="'.$file.'"');
 		}
-		else{
-			echo json_encode($id);
-		}
-
-		$this->db->update('tb_transaksi', 'sertifikat = ""','sertifikat = "$file"');
 	}
 	public function user_save()
 	{

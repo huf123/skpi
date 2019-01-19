@@ -14,7 +14,8 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <?php echo form_open_multipart(base_url($url),"class='form-horizontal'"); ?>
+                            <?php echo form_open_multipart(base_url($url),"class='form-horizontal'");if (isset($kegiatan)){
+                                echo '<input type="hidden" name="id_transaksi" value="'.$kegiatan->id_transaksi.'">';}?>
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-5 form-control-label">
                                         <label for="keg_name">Nama kegiatan</label>
@@ -146,7 +147,7 @@
                                                         if (strtotime($kegiatan->tgl_selesai) != 0){
                                                             $checked = 'checked';
                                                             $keg_finish = '';
-                                                            $value = $kegiatan->tgl_selesai;
+                                                            $value = date_format(date_create($kegiatan->tgl_selesai),"j F Y");
                                                         }
                                                         else {
                                                             $checked = '';
@@ -162,11 +163,11 @@
                                                 <span class="input-group-addon" style="padding-right: 10px"><i class="material-icons">date_range</i></span>
                                                 <span class="input-group-addon sd" <?php echo $keg_finish?>>s.d.</span>
                                                 <div class="form-line">
-                                                    <input type="text" class="form-control" placeholder="Date end..."  name="keg_finish" <?php echo $value.' '.$keg_finish?>>
+                                                    <input type="text" class="form-control" placeholder="Date end..."  name="keg_finish" <?php echo 'value="'.$value.'" '.$keg_finish?>>
                                                 </div>
                                                 <span class="input-group-addon keg_finish" <?php echo $keg_finish?>><i class="material-icons">date_range</i></span>
                                             </div>
-                                            <input type="checkbox" class="filled-in chk-col-blue" id="date_end_show">
+                                            <input type="checkbox" class="filled-in chk-col-blue" id="date_end_show" <?php echo $checked ?>>
                                             <label for="date_end_show">Lebih dari 1 hari</label>
                                         </div>
                                     </div>
@@ -177,12 +178,13 @@
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                                         <div class="form-group" style="margin-top: 5px">
-                                            <?php if (isset($kegiatan)){
-                                                echo anchor("./assets/files/".$kegiatan->sertifikat,'Tampilkan Sertifikat','id="show_sertifikat" style="color:green"');
+                                            <?php if (isset($kegiatan) AND !empty($kegiatan->sertifikat)){
+                                                $sertifikat = $kegiatan->sertifikat;
+                                                echo anchor("./assets/files/".$sertifikat,'Tampilkan Sertifikat','id="show_sertifikat" style="color:green"');
                                                 echo " | ";
-                                                echo '<input type="hidden" id="file_path" value="'.$kegiatan->sertifikat.'">';
+                                                echo '<input type="hidden" id="file_path" value="'.$sertifikat.'">';
                                                 echo '<a href="javascript:void(0);" id="remove_sertifikat" style="color:red">Hapus</a>';
-                                            } else echo '<input type="file" name ="keg_file" class="form-control" required>'?>                                            
+                                            } else echo '<input type="file" name ="keg_file" class="form-control" required>'?>
                                         </div>
                                     </div>
                                 </div>

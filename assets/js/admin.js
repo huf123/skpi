@@ -491,7 +491,6 @@ $(document).ready(function() {
         endDate: '-1d',
         container: '#bs_datepicker_component_container'
     });
-    
 
     // date end show (lebih dari 1 hari)
     var date_end = $("input[name='keg_finish']");
@@ -506,6 +505,7 @@ $(document).ready(function() {
     		sd.css("display","none");
     		date_end.css("display","none");
     		date_end_icon.css("display","none");
+    		date_end.val("");
     	}
     })
     var form_wrap = $("#form_wrap");
@@ -597,17 +597,11 @@ $(document).ready(function() {
     	$.ajax({
 	    	type : "post",
 			url:base_url+"/skpi/dashboard/file_remove",
-			dataType:'json',
 			data:{file_path:file_path}
 	    })
-	    .done(function(data){
-	    	console.log(data);
-	    	ini.empty();
-	    	ini.append('<input type="file" name ="keg_file" class="form-control" required>');
-	    })
-	    .fail(function(data){
-	    	console.log(data);
-	    })
+	    
+	    ini.empty();
+	    ini.append('<input type="file" name ="keg_file" class="form-control" required>');
     })
 
     // check all

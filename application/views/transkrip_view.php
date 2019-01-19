@@ -13,6 +13,7 @@
                             </h2>
                         </div>
                         <div class="body">
+                            <?php if ($locked == 0): ?>                                
                             <div class="alert alert-warning">
                                 <strong>Perhatian!</strong> Anda harus mengunci kegiatan sebelum mengambil transkrip
                                 <a href="<?php echo base_url() ?>dashboard/kegiatan/add" class="btn btn-sm btn-success waves-effect waves-float" style="font-weight: bold;margin-left: 25px">
@@ -20,6 +21,8 @@
                                     <span>KUNCI KEGIATAN</span>
                                 </a>
                             </div>
+                            <?php endif ?>
+                            <?php if ($locked == 1): ?>
                             <center>
                                 <a href="<?php echo base_url() ?>dashboard/generate" class="btn btn-danger waves-effect waves-float" style="font-weight: bold;margin-right: 15px">
                                     <i class="material-icons">picture_as_pdf</i>
@@ -30,7 +33,8 @@
                                     <span>Cetak Transkrip</span>
                                 </button>
                                 <iframe src="<?php echo base_url()?>dashboard/transkrip_print" style="display:none" name="frame"></iframe>
-                            </center>
+                            </center>                                
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
