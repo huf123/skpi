@@ -8,14 +8,14 @@
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card">
-                    <?php echo form_open(base_url('dashboard/kegiatan_approve')); ?>
+                    <!-- <?php echo form_open(base_url('dashboard/kegiatan_approve')); ?> -->
                     <div class="header bg-blue" style="padding-top: 15px;padding-bottom: 15px">
                         <h2>
                             <?= $title ?> &nbsp;
-                            <button type="submit" class="btn btn-success m-t-15 waves-effect" style="margin-top: 0">
+                            <!-- <button type="submit" class="btn btn-success m-t-15 waves-effect" style="margin-top: 0">
                                 <i class="material-icons" style="font-weight:bold">done</i>
-                                <span style="font-weight:bold">APPROVE</span>                                
-                            </button>
+                                <span style="font-weight:bold">APPROVE</span>
+                            </button> -->
                         </h2>
                     </div>
                     <div class="body">
@@ -23,10 +23,10 @@
                             <table style="width:100%" class="table table-bordered table-striped table-hover js-basic-print dataTable">
                                 <thead>
                                     <tr>
-                                        <th width="1%">
+                                        <!-- <th width="1%">
                                             <input type="checkbox" id="check_all" class="filled-in">
                                             <label for="check_all"></label>
-                                        </th>
+                                        </th> -->
                                         <th width="1%">NIM</th>
                                         <th>Nama mahasiswa</th>
                                         <th>Program studi</th>
@@ -41,10 +41,10 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>
+                                        <!-- <th>
                                             <input type="checkbox" id="check_all_bot" class="filled-in">
                                             <label for="check_all_bot"></label>
-                                        </th>
+                                        </th> -->
                                         <th>NIM</th>
                                         <th>Nama mahasiswa</th>
                                         <th>Program studi</th>
@@ -61,15 +61,55 @@
                                     <?php foreach ($laporan as $lapor){ 
                                         $id_transaksi = $lapor->id_transaksi?>
                                     <tr>
-                                        <td>
+                                        <!-- <td>
                                             <input type="checkbox" id="<?php echo 'check_'.$id_transaksi?>" class="filled-in" name="id_transaksi[]" value="<?php echo $id_transaksi?>" <?php if ($lapor->approval==1) echo "checked disabled"?>>
                                             <label for="<?php echo 'check_'.$id_transaksi ?>"></label>
-                                        </td>
+                                        </td> -->
                                         <td><?= $lapor->nim ?></td>
                                         <td><?= $lapor->nama?></td>
                                         <td><?= $lapor->jurusan ?></td>
                                         <td><?= $lapor->nama_kg.'<br>('.$lapor->nama_kg_eng.')' ?></td>
-                                        <td></td>
+                                        
+                                        <td>
+                                            <ul class="soft">
+                                                <li>
+                                                    <?= 'Bekerja dalam Tim : '.round($lapor->softskill1,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Komunikasi Efektif : '.round($lapor->softskill2,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Manajemen Diri dan Waktu : '.round($lapor->softskill3,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Tangguh : '.round($lapor->softskill4,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Berpikir Kritis dan Analitis : '.round($lapor->softskill5,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Fleksibel : '.round($lapor->softskill6,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Integritas : '.round($lapor->softskill7,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Kreatif : '.round($lapor->softskill8,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Mandiri : '.round($lapor->softskill9,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Dapat Diandalkan : '.round($lapor->softskill10,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Produktif : '.round($lapor->softskill11,2) ?>
+                                                </li>
+                                                <li>
+                                                    <?= 'Motivasi : '.round($lapor->softskill12,2) ?>
+                                                </li>
+                                            </ul>
+                                        </td>
                                         <td>
                                             <center>
                                             <?php if ($lapor->approval==1) {?>                                            
@@ -93,7 +133,7 @@
                             </table>
                         </div>
                     </div>
-                    <?php echo form_close(); ?>
+                    <!-- <?php echo form_close(); ?> -->
                 </div>
             </div>
         </div>

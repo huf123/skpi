@@ -605,16 +605,16 @@ $(document).ready(function() {
     })
 
     // check all
-    $('#check_all').on("change", function(){
-    	if ($(this).is(':checked')) {
-    		$('#check_all_bot').attr('checked','true');
-    		$(this).parents('table').find('input[type="checkbox"]').attr('checked','true');
-    	}
-    	else {
-    		$('#check_all_bot').removeAttr('checked');
-    		$(this).parents('table').find('input[type="checkbox"]').removeAttr('checked');
-    	}
-    })
+    // $('#check_all').on("change", function(){
+    // 	if ($(this).is(':checked')) {
+    // 		$('#check_all_bot').attr('checked','true');
+    // 		$(this).parents('table').find('input[type="checkbox"]').attr('checked','true');
+    // 	}
+    // 	else {
+    // 		$('#check_all_bot').removeAttr('checked');
+    // 		$(this).parents('table').find('input[type="checkbox"]').removeAttr('checked');
+    // 	}
+    // })
 
     // approve kegiatan
     $('tbody').on('click', '#btn_approve', function(){

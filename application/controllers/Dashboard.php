@@ -249,13 +249,10 @@ class Dashboard extends CI_Controller {
 	}
 	public function kegiatan_lock()
 	{
+		$this->db->insert('tb_transkrip', array('nim' => $this->uname));
 		$this->db->update('tb_transaksi',
-			array('locked' => 1),
+			array('locked' => 1, 'id_transkrip' => $this->db->insert_id()),
 			array('nim' => $this->uname,'approval' => 1));
-		$data = array(
-			'nim' => $this->uname,
-			'keg_transkrip' => '');
-		$this->db->insert('tb_transkrip', $data);
 		redirect(base_url('dashboard/kegiatan'),'refresh');
 	}
 
